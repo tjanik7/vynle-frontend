@@ -1,7 +1,6 @@
 import React from "react"
 import { Link, useNavigate } from "react-router-dom"
 import PropTypes from "prop-types"
-import './css/LoginFunctional.css' // TODO: maybe delete this
 
 function handleSubmit(e) {
     // Prevents browser from reloading the page
@@ -38,7 +37,7 @@ function LoginFunctional(props) {
                         </div>
                         <div className={'form-group'}>
                         <button type={'submit'} className={'btn btn-primary mb-2'}>
-                                <span className={'button-text-container'}>Login</span>
+                                <span>Login</span>
                             </button>
                         </div>
                         <p>
