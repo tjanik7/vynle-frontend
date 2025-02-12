@@ -20,6 +20,7 @@ import Profile from "./profile/Profile"
 import SpotifyCallback from "./spotify/SpotifyCallback"
 
 import { buildStaticUrl } from "../api/serverLocations"
+import LoginFunctional from "./accounts/LoginFunctional"
 
 class App extends Component {
     componentDidMount() {
@@ -57,6 +58,7 @@ class App extends Component {
                                 } />
                                 <Route path={'/register'} element={<Register/>}/>
                                 <Route path={'/login'} element={<Login/>}/>
+                                <Route path={'/new-login'} element={<LoginFunctional/>}/>
                             </Routes>
                         </div>
                     </Fragment>
