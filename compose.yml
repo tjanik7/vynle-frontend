@@ -1,0 +1,11 @@
+services:
+  react:
+    build: .
+    command: npm run prod
+    expose: # Need to change what port frontend server listens on after changing this
+      - 8080
+
+  nginx: # Serves backend and acts as reverse-proxy
+    build: ./proxy
+    ports:
+      - 443:443

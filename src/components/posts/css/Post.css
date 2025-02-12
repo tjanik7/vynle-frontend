@@ -1,0 +1,19 @@
+.post-container {
+    margin-bottom: 50px;
+    display: flex;
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 25px;
+    justify-content: space-between;
+}
+
+.post-container-clickable {
+    cursor: pointer;
+}
+
+.item {
+    flex: 1;
+}
+
+#username-field {
+    padding-left: 5px;
+}
