@@ -24,7 +24,7 @@ media
 # Distribution / packaging
 .Python build/
 develop-eggs/
-frontend/dist/bundle.js
+bundle.js
 downloads/
 eggs/
 .eggs/
