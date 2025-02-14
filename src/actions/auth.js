@@ -1,8 +1,7 @@
 import axiosInstance from "../api/axiosInstance"
 import {
     AUTH_ERROR,
-    GET_ERRORS,
-    LOGIN_FAIL,
+    GET_ERRORS, LOGIN_FAIL,
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     REGISTER_FAIL,
@@ -16,7 +15,7 @@ import { tokenConfig } from "../api/tokenConfig"
 // Check token & load user
 export const loadUser = () => (dispatch, getState) => {
     // User loading
-    dispatch({ type: USER_LOADING })
+    dispatch({type: USER_LOADING})
 
     axiosInstance
         .get('/users/auth/account', tokenConfig(getState))
@@ -26,16 +25,18 @@ export const loadUser = () => (dispatch, getState) => {
                 payload: res.data
             })
         }).catch(err => {
-            console.log(err)
-            dispatch({
-                type: AUTH_ERROR
-            })
+        console.log(err)
+        dispatch({
+            type: AUTH_ERROR
+        })
     })
 }
 
 
 // LOGIN USER
-export const login = (email, password) => dispatch => { // getState not needed since we aren't including a token with the request
+export const login = (email, password, setIsLoading, setErrors) => dispatch => { // getState not needed since we aren't including a token with the request
+    setIsLoading(true)
+
     // Headers
     const config = {
         headers: {
@@ -45,7 +46,7 @@ export const login = (email, password) => dispatch => { // getState not needed s
 
     // Request Body
     // identical to {email: email, password: password}
-    const body = { email, password }
+    const body = {email, password}
 
     axiosInstance
         .post('/users/auth/login', body, config)
@@ -58,20 +59,17 @@ export const login = (email, password) => dispatch => { // getState not needed s
         dispatch({
             type: LOGIN_FAIL
         })
+        setIsLoading(false)
 
-        const errors = {
+        setErrors({
             msg: err.response.data,
             status: err.response.status
-        }
-        dispatch({
-            type: GET_ERRORS,
-            payload: errors
         })
     })
 }
 
 // Create new user account
-export const register = ({ email, password, username, first, last }) => dispatch => {
+export const register = ({email, password, username, first, last}) => dispatch => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -79,7 +77,7 @@ export const register = ({ email, password, username, first, last }) => dispatch
     }
 
     // Request Body
-    const body = { email, password, username, first, last }
+    const body = {email, password, username, first, last}
 
     axiosInstance
         .post('/users/auth/register', body, config)
@@ -117,5 +115,5 @@ export const logout = () => (dispatch, getState) => {
         console.log(err)
     })
 
-    dispatch({ type: USER_LOGGED_OUT })
+    dispatch({type: USER_LOGGED_OUT})
 }

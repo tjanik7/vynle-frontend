@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Header from './layout/Header'
 import Feed from './posts/Feed'
 import Form from './posts/Form'
-import Login from './accounts/Login'
 import Register from './accounts/Register'
 import PrivateRoute from './common/PrivateRoute'
 
@@ -20,6 +19,7 @@ import Profile from "./profile/Profile"
 import SpotifyCallback from "./spotify/SpotifyCallback"
 
 import { buildStaticUrl } from "../api/serverLocations"
+import Login from "./accounts/Login"
 
 class App extends Component {
     componentDidMount() {
