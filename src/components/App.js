@@ -57,8 +57,8 @@ class App extends Component {
                                 </PrivateRoute>
                                 } />
                                 <Route path={'/register'} element={<Register/>}/>
-                                <Route path={'/login'} element={<Login/>}/>
-                                <Route path={'/new-login'} element={<LoginFunctional/>}/>
+                                {/*<Route path={'/login'} element={<Login/>}/>*/}
+                                <Route path={'/login'} element={<LoginFunctional/>}/>
                             </Routes>
                         </div>
                     </Fragment>
