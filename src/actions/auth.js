@@ -1,7 +1,7 @@
 import axiosInstance from "../api/axiosInstance"
 import {
     AUTH_ERROR,
-    GET_ERRORS,
+    GET_ERRORS, LOGIN_FAIL,
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     REGISTER_FAIL,
@@ -56,6 +56,9 @@ export const login = (email, password, setIsLoading, setErrors) => dispatch => {
                 payload: res.data
             })
         }).catch(err => {
+        dispatch({
+            type: LOGIN_FAIL
+        })
         setIsLoading(false)
 
         setErrors({
