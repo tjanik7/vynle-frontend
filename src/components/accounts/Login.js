@@ -1,126 +1,81 @@
-import React, { Component } from 'react'
-import { Link, Navigate } from 'react-router-dom'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import React, { useEffect, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import PropTypes from "prop-types"
+import { connect } from "react-redux"
 import { login } from '../../actions/auth'
-import { clearErrors } from '../../actions/errors'
-import { getFieldHasErrorObj } from '../helperFunctions'
-import './css/Login.css'
+import { getFieldHasErrorObj } from "../helperFunctions"
+import AuthField from "./AuthField"
 
-class Login extends Component {
-    state = {
-        email: '',
-        password: '',
-        isLoading: null,  // Represents loading status
+function Login(props) {
+    function handleSubmit(e) {
+        // Prevents browser from reloading the page
+        e.preventDefault()
+
+        const form = e.target
+        const formData = new FormData(form)
+        const formJson = Object.fromEntries(formData.entries())
+
+        props.login(formJson.email, formJson.password, setIsLoading, setErrors)
     }
 
-    static propTypes = {
-        login: PropTypes.func.isRequired,
-        isAuthenticated: PropTypes.bool,
-        errors: PropTypes.object.isRequired,
-        clearErrors: PropTypes.func.isRequired,
-    }
-
-    componentWillUnmount() { // clears errors and reset state when user navigates away from this component
-        this.setState({
-                isLoading: false,
-            })
-        this.props.clearErrors()
-    }
-
-    onChange = e => this.setState({
-        [e.target.name]: e.target.value,
+    const [isLoading, setIsLoading] = useState(false) // For local use while fetching auth status
+    const [errors, setErrors] = useState({
+        msg: {},
+        status: null
     })
 
-    onSubmit = e => {
-        e.preventDefault() // Prevent default behavior of HTML element
-        this.setState({
-            isLoading: true,
-        })
-        this.props.login(this.state.email, this.state.password) // call login action
-    }
+    const navigate = useNavigate()
 
-    render() {
-        if (this.props.isAuthenticated) {
-            return <Navigate to={'/'}/>
+    useEffect(() => {
+        // Navigate to feed if logged in
+        if (props.isAuthenticated) {
+            navigate('/', {replace: true})
         }
-        const { email, password, isLoading } = this.state
+    }, [props.isAuthenticated]);
 
-        const errors = this.props.errors
-        const fields = ['email', 'password', 'non_field_errors']
-        const fieldHasError = getFieldHasErrorObj(fields, errors)
-        let currField
+    const fieldHasError = getFieldHasErrorObj(['email', 'password', 'non_field_errors'], errors)
 
-        currField = 'email'
-        const emailField = (
-            <div className={'form-group mb-3' + (fieldHasError[currField] ? ' has-danger' : '')}>
-                <label>Email</label>
-                <input
-                    type="email"
-                    className={'form-control' + (fieldHasError[currField] ? ' is-invalid' : '')}
-                    name="email"
-                    onChange={this.onChange}
-                    value={email}
-                />
-                {fieldHasError[currField] ? (
-                    <div className={'invalid-feedback'}>{errors.msg.email}</div>
-                ) : null}
-            </div>
-        )
-
-        currField = 'password'
-        const passwordField = (
-            <div className={'form-group mb-3' + (fieldHasError[currField] ? ' has-danger' : '')}>
-                <label>Password</label>
-                <input
-                    type="password"
-                    className={'form-control' + (fieldHasError[currField] ? ' is-invalid' : '')}
-                    name="password"
-                    onChange={this.onChange}
-                    value={password}
-                />
-                {fieldHasError[currField] ? (
-                    <div className={'invalid-feedback'}>{errors.msg.password}</div>
-                ) : null}
-            </div>
-        )
-
-        currField = 'non_field_errors'
-        const nonFieldErrors = (
-            fieldHasError[currField] ?
-                <h5 className={'text-danger'}>Incorrect username or password. Please try again.</h5>
-                : null
-        )
-
-        return (
-            <div className="col-md-6 m-auto">
-                <div className="card card-body mt-5">
-                    <h2 className="text-center">Login</h2>
-                    <form onSubmit={this.onSubmit}>
-                        {nonFieldErrors}
-                        {emailField}
-                        {passwordField}
-                        <div className="form-group">
-                            <button type="submit" className="btn btn-primary mb-2">
-                                {isLoading ? <span className="spinner-border spinner-border-sm" role="status"
-                                      aria-hidden="true"></span>: null}
-                                <span className={'button-text-container'}>Login</span>
+    return (
+        <>
+            <div className={'col-md-6 m-auto'}>
+                <div className={'card card-body mt-5'}>
+                    <h2 className={'text-center'}>Login</h2>
+                    <form method={'post'} onSubmit={handleSubmit}>
+                        {/*Non-field errors*/}
+                        {fieldHasError['non_field_errors'] ? (
+                            <p className={'text-danger'}>Incorrect username or password. Please try again.</p>
+                        ) : null}
+                        {/*Email field*/}
+                        <AuthField fieldHasError={fieldHasError['email']} label={'Email'} name={'email'}
+                                   errorMessage={errors.msg.email}/>
+                        {/*Password field*/}
+                        <AuthField fieldHasError={fieldHasError['password']} label={'Password'}
+                                   name={'password'} errorMessage={errors.msg.password}/>
+                        {/*Login button and spinner*/}
+                        <div className={'form-group'}>
+                            <button type={'submit'} className={'btn btn-primary mb-2'}>
+                                {isLoading ? <span className={'spinner-border spinner-border-sm'}
+                                                   role='status' aria-hidden={'true'}/> : null}
+                                <span className={'px-1'}>Login</span>
                             </button>
                         </div>
                         <p>
-                            Don't have an account? <Link to="/register">Register</Link>
+                            Don't have an account? <Link to={'/register'}>Register</Link>
                         </p>
                     </form>
                 </div>
             </div>
-        )
-    }
+        </>
+    )
+}
+
+Login.propTypes = {
+    isAuthenticated: PropTypes.bool, // Not setting as required bc null state useful while fetching status
+    login: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
-    errors: state.errors,
 })
 
-// always pass mapStateToProps (if necessary) and any actions used into connect
-export default connect(mapStateToProps, { login, clearErrors })(Login)
+export default connect(mapStateToProps, {login})(Login)
