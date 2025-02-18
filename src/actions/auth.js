@@ -69,7 +69,9 @@ export const login = (email, password, setIsLoading, setErrors) => dispatch => {
 }
 
 // Create new user account
-export const register = ({email, password, username, first, last}) => dispatch => {
+export const register = (email, password, username, first, last, setIsLoading, setErrors) => dispatch => {
+    setIsLoading(true)
+
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -91,10 +93,18 @@ export const register = ({email, password, username, first, last}) => dispatch =
             type: REGISTER_FAIL
         })
 
+        setIsLoading(false)
+
+        setErrors({
+            msg: err.response.data,
+            status: err.response.status,
+        })
+
         const errors = {
             msg: err.response.data,
             status: err.response.status
         }
+
         dispatch({
             type: GET_ERRORS,
             payload: errors
