@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Header from './layout/Header'
 import Feed from './posts/Feed'
 import Form from './posts/Form'
-import Register from './accounts/Register'
 import PrivateRoute from './common/PrivateRoute'
 
 import { Provider } from 'react-redux'
@@ -20,7 +19,7 @@ import SpotifyCallback from "./spotify/SpotifyCallback"
 
 import { buildStaticUrl } from "../api/serverLocations"
 import Login from "./accounts/Login"
-import RegisterFunctional from "./accounts/RegisterFunctional"
+import Register from "./accounts/Register"
 
 class App extends Component {
     componentDidMount() {
@@ -56,8 +55,7 @@ class App extends Component {
                                     <PostDetail/>
                                 </PrivateRoute>
                                 } />
-                                {/*<Route path={'/register'} element={<Register/>}/>*/}
-                                <Route path={'/register'} element={<RegisterFunctional/>}/>
+                                <Route path={'/register'} element={<Register/>}/>
                                 <Route path={'/login'} element={<Login/>}/>
                             </Routes>
                         </div>
