@@ -5,6 +5,7 @@ import { connect } from "react-redux"
 import { login } from '../../actions/auth'
 import { getFieldHasErrorObj } from "../helperFunctions"
 import AuthField from "./AuthField"
+import formHasError from './formValidator'
 
 function Login(props) {
     function handleSubmit(e) {
@@ -14,6 +15,10 @@ function Login(props) {
         const form = e.target
         const formData = new FormData(form)
         const formJson = Object.fromEntries(formData.entries())
+
+        if(formHasError(formJson, setErrors)) {
+            return
+        }
 
         props.login(formJson.email, formJson.password, setIsLoading, setErrors)
     }

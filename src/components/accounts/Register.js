@@ -5,60 +5,18 @@ import { getFieldHasErrorObj } from "../helperFunctions"
 import PropTypes from "prop-types"
 import { register } from "../../actions/auth"
 import { connect } from "react-redux"
+import formHasError from "./formValidator"
 
 // TODO: add 'is required' star for required form fields
 
 function Register(props) {
-    function formHasError(fields) {
-        // Catch obvious form errors here before submitting
-
-        const errorMessages = {}
-        let errorFound = false
-
-        if(!fields.email) {
-            errorMessages['email'] = ['This field is required']
-            errorFound = true
-        }
-
-        if(!fields.username) {
-            errorMessages['username'] = ['This field is required']
-            errorFound = true
-        }
-
-        if(!fields.password) {
-            errorMessages['password'] = ['This field is required']
-            errorFound = true
-        }
-
-        if(!fields.re_password) {
-            errorMessages['re_password'] = ['This field is required']
-            errorFound = true
-        } else if(fields.password !== fields.re_password) {
-            errorMessages['re_password'] = ['Passwords do not match']
-            errorFound = true
-        }
-
-        // Update state with the errors found
-        if(errorFound) {
-            setErrors({
-                status: 400,
-                msg: errorMessages,
-            })
-
-            return true
-        }
-
-
-        return false
-    }
-
     function handleSubmit(e) {
         e.preventDefault()
 
         const form = e.target
         const formJson = Object.fromEntries(new FormData(form).entries())
 
-        if(formHasError(formJson)) {
+        if(formHasError(formJson, setErrors)) {
             return
         }
 
