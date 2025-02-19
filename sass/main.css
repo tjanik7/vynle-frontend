@@ -3075,7 +3075,7 @@ textarea.form-control-lg {
   color: #fff;
   background-color: var(--vynle-primary);
   border-color: var(--vynle-primary);
-  box-shadow: 0 0 0 0.25rem rgba(132, 96, 223, 0.5);
+  box-shadow: 0 0 0 0.25rem var(--vynle-primary);
 }
 
 .btn-check:checked + .btn-primary, .btn-check:active + .btn-primary, .btn-primary:active, .btn-primary.active, .show > .btn-primary.dropdown-toggle {
