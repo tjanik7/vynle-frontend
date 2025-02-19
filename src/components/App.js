@@ -20,6 +20,7 @@ import SpotifyCallback from "./spotify/SpotifyCallback"
 import { buildStaticUrl } from "../api/serverLocations"
 import Login from "./accounts/Login"
 import Register from "./accounts/Register"
+import Settings from "./accounts/Settings"
 
 class App extends Component {
     componentDidMount() {
@@ -36,27 +37,30 @@ class App extends Component {
                         <div className={'container'} style={{marginTop: '75px'}}>
                             <Routes>
                                 <Route path={'/create-post-form'} element={<PrivateRoute>
-                                    <Form />
-                                </PrivateRoute>} />
+                                    <Form/>
+                                </PrivateRoute>}/>
                                 <Route path={'/spotify-redirect'} element={<PrivateRoute>
                                     <SpotifyRedirect/>
-                                </PrivateRoute>} />
+                                </PrivateRoute>}/>
                                 <Route path={'/spotify_callback'} element={<PrivateRoute>
                                     <SpotifyCallback/>
-                                </PrivateRoute>} />
+                                </PrivateRoute>}/>
                                 <Route path={'/profile/:username'} element={<PrivateRoute>
                                     <Profile/>
-                                </PrivateRoute>} />
+                                </PrivateRoute>}/>
                                 <Route path='/' element={<PrivateRoute>
                                     <Feed/>
                                 </PrivateRoute>
-                                } />
+                                }/>
                                 <Route path={'/post/:id'} element={<PrivateRoute>
                                     <PostDetail/>
                                 </PrivateRoute>
-                                } />
+                                }/>
                                 <Route path={'/register'} element={<Register/>}/>
                                 <Route path={'/login'} element={<Login/>}/>
+                                <Route path={'/settings'} element={<PrivateRoute>
+                                    <Settings/>
+                                </PrivateRoute>}/>
                             </Routes>
                         </div>
                     </Fragment>

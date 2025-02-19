@@ -37,6 +37,9 @@ class Header extends Component {
                     {spotifyLink}
                 </li>
                 <li className={'nav-item'}>
+                    <Link className={'nav-link'} to={'/settings'}>Settings</Link>
+                </li>
+                <li className={'nav-item'}>
                     <span className={'navbar-text nav-link'}>
                         <strong>
                             {user ? `Welcome, ${user.first}` : ''}
