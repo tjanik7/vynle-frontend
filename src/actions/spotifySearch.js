@@ -9,12 +9,12 @@ import {
     SEARCH_INVISIBLE,
     SET_SELECTED_INDEX,
 } from './types'
-import { tokenConfig } from "../api/tokenConfig"
+import { reduxTokenConfig } from "../api/tokenConfig"
 
 // Make a search query using the Spotify API
 export const search = (q) => (dispatch, getState) => {
     const data = {
-        headers: tokenConfig(getState).headers,
+        headers: reduxTokenConfig(getState).headers,
         params: { q: q }
     }
     axiosInstance.get('/spotify/search-spotify', data)

@@ -9,11 +9,11 @@ import {
 } from './types'
 import axiosInstance from "../api/axiosInstance"
 import AxiosInstance from "../api/axiosInstance"
-import { tokenConfig } from "../api/tokenConfig"
+import { reduxTokenConfig } from "../api/tokenConfig"
 
 export const followUser = (user_id) => (dispatch, getState) => {
     AxiosInstance
-        .post(`/users/follow/${user_id}/`, null, tokenConfig(getState))
+        .post(`/users/follow/${user_id}/`, null, reduxTokenConfig(getState))
         .then(res => {
             dispatch({type: FOLLOWED_USER})
         }).catch(err => {
@@ -23,7 +23,7 @@ export const followUser = (user_id) => (dispatch, getState) => {
 
 export const unfollowUser = (user_id) => (dispatch, getState) => {
     AxiosInstance
-        .post(`/users/unfollow/${user_id}/`, null, tokenConfig(getState))
+        .post(`/users/unfollow/${user_id}/`, null, reduxTokenConfig(getState))
         .then(res => {
             dispatch({type: UNFOLLOWED_USER})
         }).catch(err => {
@@ -44,7 +44,7 @@ export const setFavAlbum = (albumObj, ind) => (dispatch, getState) => {
         }
     })
 
-    const headers = tokenConfig(getState)
+    const headers = reduxTokenConfig(getState)
     const params = {
         album_id: albumObj.spotify_release_uri,
         ind: ind,
@@ -63,7 +63,7 @@ export const setFavAlbum = (albumObj, ind) => (dispatch, getState) => {
 }
 
 export const getUserProfile = username => (dispatch, getState) => {
-    axiosInstance.get(`/users/${username}`, tokenConfig(getState))
+    axiosInstance.get(`/users/${username}`, reduxTokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GOT_USER_PROFILE,
