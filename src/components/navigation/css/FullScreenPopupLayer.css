@@ -4,7 +4,7 @@
 }
 
 .popup-layer {
-    background-color: #495057dd;
+    background-color: #495057df;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -22,11 +22,17 @@
 
 .link-box {
     position: relative;
-    right: 50px;
-    transition: right 500ms;
+    right: 500px;
+    opacity: 0;
+    transition: right 500ms, opacity 500ms;
 }
 
-.text-state-0 {
+.text-final-state {
     position: relative;
+    opacity: 1;
     right: 0;
+}
+
+.x-button {
+    background-color: darkgray;
 }

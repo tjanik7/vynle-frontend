@@ -6,12 +6,17 @@ import PropTypes from "prop-types"
 
 function FullScreenPopupLayer(props) {
     const [className, setClassName] = useState('')
-    const [linkClassName, setLinkClassName] = useState('')
+    const [linkClassName0, setLinkClassName0] = useState('')
+    const [linkClassName1, setLinkClassName1] = useState('')
+    const [linkClassName2, setLinkClassName2] = useState('')
 
-    // Resets classname to deactivated state and sets shouldTearDown -> true
     const tearDown = () => {
+        // Reset transitions to original state
         setClassName('')
-        setLinkClassName('')
+        setTimeout(() => {setLinkClassName0('')}, 0)
+        setTimeout(() => {setLinkClassName1('')}, 25)
+        setTimeout(() => {setLinkClassName2('')}, 50)
+
         setTimeout(() => {
             props.disable()
         }, 500) // Same amount of time as expressed in css transition (0.5s)
@@ -21,7 +26,10 @@ function FullScreenPopupLayer(props) {
         // Triggers transition once state is 'enabled'
         if (props.isEnabled) {
             setClassName('popup-layer-enabled')
-            setLinkClassName('text-state-0')
+            // setLinkClassName('text-final-state')
+            setTimeout(() => {setLinkClassName0('text-final-state')}, 0)
+            setTimeout(() => {setLinkClassName1('text-final-state')}, 25)
+            setTimeout(() => {setLinkClassName2('text-final-state')}, 50)
         }
     }, [props.isEnabled]);
 
@@ -34,13 +42,13 @@ function FullScreenPopupLayer(props) {
     return (
         <>
             <div className={'popup-layer' + ' ' + className}>
-                <Button onClick={tearDown}>X</Button>
+                <Button className={'x-button'} onClick={tearDown}>X</Button>
                 <div className={'link-container'}>
-                    <div className={'link-box' + ' ' + linkClassName}>
+                    <div>
                         <ul className={'nav flex-column'}>
-                            <NavListItem>One</NavListItem>
-                            <NavListItem>Two</NavListItem>
-                            <NavListItem>How about a third</NavListItem>
+                            <NavListItem className={'link-box' + ' ' + linkClassName0}>One</NavListItem>
+                            <NavListItem className={'link-box' + ' ' + linkClassName1}>Two</NavListItem>
+                            <NavListItem className={'link-box' + ' ' + linkClassName2}>How about a third</NavListItem>
                         </ul>
                     </div>
                 </div>
