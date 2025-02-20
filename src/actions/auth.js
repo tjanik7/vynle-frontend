@@ -10,7 +10,7 @@ import {
     USER_LOADING,
     USER_LOGGED_OUT,
 } from './types'
-import { tokenConfig } from "../api/tokenConfig"
+import { reduxTokenConfig } from "../api/tokenConfig"
 
 // Check token & load user
 export const loadUser = () => (dispatch, getState) => {
@@ -18,7 +18,7 @@ export const loadUser = () => (dispatch, getState) => {
     dispatch({type: USER_LOADING})
 
     axiosInstance
-        .get('/users/auth/account', tokenConfig(getState))
+        .get('/users/auth/account', reduxTokenConfig(getState))
         .then(res => {
             dispatch({
                 type: USER_LOADED,
@@ -115,7 +115,7 @@ export const register = (email, password, username, first, last, setIsLoading, s
 // LOGOUT USER
 export const logout = () => (dispatch, getState) => {
     axiosInstance
-        .post('/users/auth/logout', null, tokenConfig(getState))
+        .post('/users/auth/logout', null, reduxTokenConfig(getState))
         .then(res => {
             dispatch({
                 type: LOGOUT_SUCCESS,

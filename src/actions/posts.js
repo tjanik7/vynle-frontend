@@ -11,7 +11,7 @@ import {
     RESET_POSTS_LOADING,
     SPOTIFY_UNAUTHORIZED
 } from './types'
-import { tokenConfig } from "../api/tokenConfig"
+import { reduxTokenConfig } from "../api/tokenConfig"
 import { formatHeader } from "../api/formatHeader"
 
 export const resetPostsLoading = () => (dispatch, getState) => {
@@ -21,7 +21,7 @@ export const resetPostsLoading = () => (dispatch, getState) => {
 export const getPosts = () => (dispatch, getState) => {
     dispatch({type: GET_POSTS})  // Marks state as loading
 
-    axiosInstance.get('/posts/', tokenConfig(getState))
+    axiosInstance.get('/posts/', reduxTokenConfig(getState))
         .then(res => {
             dispatch({
                 type: GOT_POSTS,
@@ -53,7 +53,7 @@ export const getUserPosts = (username, setPosts, token) => {
 }
 
 export const deletePost = id => (dispatch, getState) => {
-    axiosInstance.delete(`/posts/${id}/`, tokenConfig(getState))
+    axiosInstance.delete(`/posts/${id}/`, reduxTokenConfig(getState))
         .then(res => {
             dispatch({
                 type: DELETE_POST,
@@ -64,7 +64,7 @@ export const deletePost = id => (dispatch, getState) => {
 
 export const addPost = post => (dispatch, getState) => {
 
-    axiosInstance.post('/posts/', post, tokenConfig(getState))
+    axiosInstance.post('/posts/', post, reduxTokenConfig(getState))
         .then(res => {
             dispatch({
                 type: ADD_POST,
