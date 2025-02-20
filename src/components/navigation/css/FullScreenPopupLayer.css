@@ -24,7 +24,7 @@
     position: relative;
     right: 500px;
     opacity: 0;
-    transition: right 500ms, opacity 500ms;
+    transition: right 400ms, opacity 500ms;
 }
 
 .text-final-state {
