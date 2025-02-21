@@ -25,11 +25,11 @@ function FullScreenPopupLayer(props) {
     const [className, setClassName] = useState('')
     const [linkClasses, setLinkClasses] = useState(initArray(linkList.length))
 
-    // Wrapping setTimeout in function preserves local variables from loop
-    function doSetTimeout(newStateArr, i) {
+    // Wrapping setTimeout in function preserves local variables from loop (via function's stack frame)
+    function setStateAfterDelay(newStateArr, i) {
         setTimeout(() => {
             setLinkClasses(newStateArr)
-        }, animationInterval * i)
+        }, animationInterval * i) // Increase delay by 'animationInterval' each time
     }
 
     const setLinksToFinalState = () => {
@@ -38,7 +38,7 @@ function FullScreenPopupLayer(props) {
             // Create copy of state array with new reference to let React know state has been updated
             prevStateArr = [...prevStateArr]
             prevStateArr[i] = 'text-final-state'
-            doSetTimeout(prevStateArr, i)
+            setStateAfterDelay(prevStateArr, i)
         }
     }
 
@@ -48,7 +48,7 @@ function FullScreenPopupLayer(props) {
             // Create copy of state array with new reference to let React know state has been updated
             prevStateArr = [...prevStateArr]
             prevStateArr[i] = ''
-            doSetTimeout(prevStateArr, i)
+            setStateAfterDelay(prevStateArr, i)
         }
     }
 
