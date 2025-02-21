@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react"
 import './css/FullScreenPopupLayer.css'
-import NavListItem from "./NavListItem"
 import { Button } from "react-bootstrap"
 import PropTypes from "prop-types"
 
 function FullScreenPopupLayer(props) {
+    // Ensures has type 'array'
+    // Passed as object when only single element
+    const children = React.Children.toArray(props.children)
+
     const animationInterval = 50 // milliseconds
     const linkList = [ // List where each element is [<Link label>, <link route>]
         ['One', ''],
@@ -75,15 +78,20 @@ function FullScreenPopupLayer(props) {
         }
     }, [props.isEnabled]);
 
+
     if (!props.isEnabled) {
         return null
     }
 
+    // Wrap each child component in div, so we can edit className
+    // (avoids editing child elements which is not recommended)
     const generateListItems = () => {
         const tags = []
-        for (let i = 0; i < linkList.length; i++) {
+        for (let i = 0; i < children.length; i++) {
             tags.push(
-                <NavListItem key={i} className={'link-box' + ' ' + linkClasses[i]}>{linkList[i][0]}</NavListItem>
+                <div key={i} className={'link-box' + ' ' + linkClasses[i]}>
+                    {children[i]}
+                </div>
             )
         }
         return tags
