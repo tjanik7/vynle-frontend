@@ -13,7 +13,7 @@
     /* Note that navbar currently has z-index of 1030 */
     z-index: 1035;
     opacity: 0;
-    transition: opacity 500ms;
+    transition: opacity 1000ms;
 }
 
 .popup-layer-enabled {
@@ -24,7 +24,7 @@
     position: relative;
     right: 500px;
     opacity: 0;
-    transition: right 400ms, opacity 500ms;
+    transition: right 250ms, opacity 500ms;
 }
 
 .text-final-state {

@@ -1,6 +1,8 @@
 .menu-button {
     display: inline-block;
     cursor: pointer;
+    z-index: 1036;
+    position: relative;
 }
 
 .menu-button-line {
@@ -12,11 +14,12 @@
 }
 
 .bar1, .bar2, .bar3 {
-    transition: 400ms;
+    transition: 400ms ease-in-out;
 }
 
 .change .bar1 {
     transform: translate(0, 11px) rotate(225deg);
+    background-color: white;
 }
 
 .change .bar2 {
@@ -25,4 +28,5 @@
 
 .change .bar3 {
     transform: translate(0, -11px) rotate(-225deg);
+    background-color: white;
 }
