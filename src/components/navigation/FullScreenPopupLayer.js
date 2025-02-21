@@ -5,18 +5,61 @@ import { Button } from "react-bootstrap"
 import PropTypes from "prop-types"
 
 function FullScreenPopupLayer(props) {
+    const animationInterval = 50 // milliseconds
+    const linkList = [ // List where each element is [<Link label>, <link route>]
+        ['One', ''],
+        ['Two', ''],
+        ['Here\'s a third', ''],
+        ['I mean we could absolutely do another', '']
+    ]
+
+    // Initializes array of empty strings with length 'len'
+    const initArray = (len) => {
+        const arr = []
+        for (let i = 0; i < len; i++) {
+            arr.push('')
+        }
+        return arr
+    }
+
     const [className, setClassName] = useState('')
-    const [linkClassName0, setLinkClassName0] = useState('')
-    const [linkClassName1, setLinkClassName1] = useState('')
-    const [linkClassName2, setLinkClassName2] = useState('')
+    const [linkClasses, setLinkClasses] = useState(initArray(linkList.length))
+
+    // Wrapping setTimeout in function preserves local variables from loop
+    function doSetTimeout(newStateArr, i) {
+        setTimeout(() => {
+            setLinkClasses(newStateArr)
+        }, animationInterval * i)
+    }
+
+    const setLinksToFinalState = () => {
+        let prevStateArr = linkClasses
+        for (let i = 0; i < linkClasses.length; i++) {
+            // Create copy of state array with new reference to let React know state has been updated
+            prevStateArr = [...prevStateArr]
+            prevStateArr[i] = 'text-final-state'
+            doSetTimeout(prevStateArr, i)
+        }
+    }
+
+    const setLinksToInitialState = () => {
+        let prevStateArr = linkClasses
+        for (let i = 0; i < linkClasses.length; i++) {
+            // Create copy of state array with new reference to let React know state has been updated
+            prevStateArr = [...prevStateArr]
+            prevStateArr[i] = ''
+            doSetTimeout(prevStateArr, i)
+        }
+    }
 
     const tearDown = () => {
         // Reset transitions to original state
         setClassName('')
-        setTimeout(() => {setLinkClassName0('')}, 0)
-        setTimeout(() => {setLinkClassName1('')}, 25)
-        setTimeout(() => {setLinkClassName2('')}, 50)
 
+        // Reset link class to initial state
+        setLinksToInitialState()
+
+        // Set parent's state variable to disabled after transition completes
         setTimeout(() => {
             props.disable()
         }, 500) // Same amount of time as expressed in css transition (0.5s)
@@ -26,15 +69,24 @@ function FullScreenPopupLayer(props) {
         // Triggers transition once state is 'enabled'
         if (props.isEnabled) {
             setClassName('popup-layer-enabled')
-            // setLinkClassName('text-final-state')
-            setTimeout(() => {setLinkClassName0('text-final-state')}, 0)
-            setTimeout(() => {setLinkClassName1('text-final-state')}, 25)
-            setTimeout(() => {setLinkClassName2('text-final-state')}, 50)
+
+            // Set link class to final state
+            setLinksToFinalState()
         }
     }, [props.isEnabled]);
 
     if (!props.isEnabled) {
         return null
+    }
+
+    const generateListItems = () => {
+        const tags = []
+        for (let i = 0; i < linkList.length; i++) {
+            tags.push(
+                <NavListItem key={i} className={'link-box' + ' ' + linkClasses[i]}>{linkList[i][0]}</NavListItem>
+            )
+        }
+        return tags
     }
 
     // TODO: cleanup these classes once functionality works as expected
@@ -46,9 +98,7 @@ function FullScreenPopupLayer(props) {
                 <div className={'link-container'}>
                     <div>
                         <ul className={'nav flex-column'}>
-                            <NavListItem className={'link-box' + ' ' + linkClassName0}>One</NavListItem>
-                            <NavListItem className={'link-box' + ' ' + linkClassName1}>Two</NavListItem>
-                            <NavListItem className={'link-box' + ' ' + linkClassName2}>How about a third</NavListItem>
+                            {generateListItems()}
                         </ul>
                     </div>
                 </div>
