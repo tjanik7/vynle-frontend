@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import './css/FullScreenPopupLayer.css'
 import NavListItem from "./NavListItem"
 import { Button } from "react-bootstrap"
-import PropTypes, { string } from "prop-types"
+import PropTypes from "prop-types"
 
 function FullScreenPopupLayer(props) {
     const animationInterval = 50 // milliseconds
