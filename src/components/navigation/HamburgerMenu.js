@@ -1,12 +1,29 @@
-import React from "react"
-import { Button } from "react-bootstrap"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
+import './css/HamburgerMenu.css'
 
 function HamburgerMenu(props) {
+    const [classState, setClassState] = useState('')
+
+    const toggleState = () => {
+        setClassState(
+            classState === '' ? 'change' : ''
+        )
+    }
+
+    const onClick = () => {
+        toggleState()
+    }
+
     return (
-        <>
-            <Button onClick={props.onClick}>Burger</Button>
-        </>
+        <div>
+            {/*<Button onClick={props.onClick}>Burger Menu Button</Button>*/}
+            <div className={'menu-button' + ' ' + classState} onClick={onClick} >
+                <div className={'menu-button-line bar1'}></div>
+                <div className={'menu-button-line bar2'}></div>
+                <div className={'menu-button-line bar3'}></div>
+            </div>
+        </div>
     )
 }
 
