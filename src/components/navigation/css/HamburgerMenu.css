@@ -1,0 +1,32 @@
+.menu-button {
+    display: inline-block;
+    cursor: pointer;
+    z-index: 1036;
+    position: relative;
+}
+
+.menu-button-line {
+    background-color: #777777;
+    width: 35px;
+    height: 5px;
+    margin: 6px 0;
+    border-radius: 5px;
+}
+
+.bar1, .bar2, .bar3 {
+    transition: 400ms ease-in-out;
+}
+
+.change .bar1 {
+    transform: translate(0, 11px) rotate(225deg);
+    background-color: white;
+}
+
+.change .bar2 {
+    opacity: 0;
+}
+
+.change .bar3 {
+    transform: translate(0, -11px) rotate(-225deg);
+    background-color: white;
+}
