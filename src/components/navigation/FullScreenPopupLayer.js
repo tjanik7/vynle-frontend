@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import './css/FullScreenPopupLayer.css'
-import PropTypes from "prop-types"
 
 function FullScreenPopupLayer(props) {
-    // Ensures has type 'array'
+    // Ensures children is of type 'array' in all cases
     // Passed as object when only single element
     const children = React.Children.toArray(props.children)
 
@@ -11,36 +10,34 @@ function FullScreenPopupLayer(props) {
     const animationTime = 500 // Time of animation set in css file
 
     // Initializes array of empty strings with length 'len'
-    const initEmptyStrArray = (len) => {
+    const initArray = (len, value) => {
         const arr = []
         for (let i = 0; i < len; i++) {
-            arr.push('')
+            arr.push(value)
         }
         return arr
     }
 
-    const [popupClassName, setPopupClassName] = useState('')
-    const [linkClasses, setLinkClasses] = useState(initEmptyStrArray(children.length))
-    // Local copy of props.isEnabled that is only toggled off after transition completes
-    const [isEnabled, setIsEnabled] = useState(false)
+    // State variable setup
+    const [menuEnabled, setMenuEnabled] = useState(false)
+    const [linkClasses, setLinkClasses] = useState(initArray(children.length, false))
+    const [transitionInFinalState, setTransitionInFinalState] = useState(false)
 
     // Wrapping setTimeout in function preserves local variables from loop (via function's stack frame)
-    function setStateAfterDelay(newStateArr, i) {
+    function setStateAfterDelay(setter, newValue, delayLength) {
         setTimeout(() => {
-            setLinkClasses(newStateArr)
-        }, secondsToDelay * i) // Increase delay by 'secondsToDelay' each time
+            setter(newValue)
+        }, delayLength) // Increase delay by 'secondsToDelay' each time
     }
 
     const setLinksToFinalState = () => {
         let prevStateArr = [...linkClasses]
 
-        //setStateAfterDelay(prevStateArr, 0)
-
         for (let i = 0; i < linkClasses.length; i++) {
             // Create copy of state array with new reference to let React know state has been updated
             prevStateArr = [...prevStateArr]
-            prevStateArr[i] = 'text-final-state'
-            setStateAfterDelay(prevStateArr, i + 1)
+            prevStateArr[i] = true
+            setStateAfterDelay(setLinkClasses, prevStateArr, i * secondsToDelay)
         }
     }
 
@@ -49,59 +46,16 @@ function FullScreenPopupLayer(props) {
         for (let i = 0; i < linkClasses.length; i++) {
             // Create copy of state array with new reference to let React know state has been updated
             prevStateArr = [...prevStateArr]
-            prevStateArr[i] = ''
-            setStateAfterDelay(prevStateArr, i + 1)
+            prevStateArr[i] = false
+            setStateAfterDelay(setLinkClasses, prevStateArr, i * secondsToDelay)
         }
+        setStateAfterDelay(setMenuEnabled, false, linkClasses.length * secondsToDelay)
     }
 
     const tearDown = () => {
-        // Reset transitions to original state
-        setPopupClassName('')
-
         // Reset link class to initial state
         setLinksToInitialState()
-
-        console.log(`${secondsToDelay}, ${children.length}, ${animationTime} = ${(secondsToDelay * children.length) + animationTime}`)
-
-        // Set parent's state variable to disabled after transition completes
-        setTimeout(() => {
-            // Make sure parent still wants menu disabled after timeout
-            // necessary if user spams button
-            if (props.isEnabled === false) {
-                setIsEnabled(false)
-            }
-        }, (secondsToDelay * children.length) + animationTime) // Same amount of time as expressed in css transition (0.5s)
-    }
-
-    useEffect(() => {
-        if (isEnabled === true) {
-            setPopupClassName('popup-layer-enabled')
-
-            // Set link class to final state
-            setLinksToFinalState()
-        }
-    }, [isEnabled]);
-
-    useEffect(() => {
-        // Triggers transition once state is 'enabled'
-        if (props.isEnabled) {
-            setIsEnabled(true)
-
-        } else if (props.isEnabled === false && isEnabled === true) {
-            console.log('yeah lets just tear it down')
-            tearDown()
-        }
-    }, [props.isEnabled]);
-
-    if (isEnabled) {
-        console.log('Child state enabled')
-    } else {
-        console.log('Child state disabled')
-    }
-
-    if (!isEnabled) {
-        console.log('Returning nothing')
-        return null
+        setTransitionInFinalState(false)
     }
 
     // Wrap each child component in div, so we can edit className
@@ -110,7 +64,7 @@ function FullScreenPopupLayer(props) {
         const tags = []
         for (let i = 0; i < children.length; i++) {
             tags.push(
-                <div key={i} className={'link-box' + ' ' + linkClasses[i]}>
+                <div key={i} className={'link-box' + ' ' + (linkClasses[i] ? 'text-final-state' : '')}>
                     {children[i]}
                 </div>
             )
@@ -118,11 +72,28 @@ function FullScreenPopupLayer(props) {
         return tags
     }
 
-    // TODO: cleanup these classes once functionality works as expected
+    const onClick = () => {
+        if (menuEnabled === true) { // Activate hamburger menu
+            tearDown() // Sets menuEnabled -> false when animation completes
+        } else { // Hide hamburger menu
+            setMenuEnabled(true)
+            setLinksToFinalState()
+            setTransitionInFinalState(true)
+        }
+    }
+
+    // TODO: cleanup these classes once functionality works as expected (make them all 'change' or something)
 
     return (
         <>
-            <div className={'popup-layer' + ' ' + popupClassName}>
+            {/*Button to toggle hamburger menu*/}
+            <div className={'menu-button' + ' ' + (transitionInFinalState ? 'change' : '')} onClick={onClick}>
+                <div className={'menu-button-line bar1'}></div>
+                <div className={'menu-button-line bar2'}></div>
+                <div className={'menu-button-line bar3'}></div>
+            </div>
+            {/*Full screen hamburger menu layer*/}
+            <div className={'popup-layer' + ' ' + (transitionInFinalState ? 'popup-layer-enabled' : '')}>
                 <div className={'link-container'}>
                     <div>
                         <ul className={'nav flex-column'}>
@@ -133,10 +104,6 @@ function FullScreenPopupLayer(props) {
             </div>
         </>
     )
-}
-
-FullScreenPopupLayer.propTypes = {
-    isEnabled: PropTypes.bool.isRequired, // Determines whether layer should be shown
 }
 
 export default FullScreenPopupLayer
