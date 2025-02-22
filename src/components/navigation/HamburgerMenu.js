@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import PropTypes from "prop-types"
 import './css/HamburgerMenu.css'
 import NavListItem from "./NavListItem"
 import FullScreenPopupLayer from "./FullScreenPopupLayer"
