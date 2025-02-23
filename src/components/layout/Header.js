@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { logout } from '../../actions/auth'
 import './css/Header.css'
 import { buildStaticUrl } from "../../api/serverLocations"
+import HamburgerMenu from "../navigation/HamburgerMenu"
 
 class Header extends Component {
     static propTypes = {
@@ -14,7 +15,7 @@ class Header extends Component {
     }
 
     render() {
-        const { isAuthenticated, user } = this.props.auth
+        const {isAuthenticated, user} = this.props.auth
         const isSpotifyAuthenticated = this.props.isSpotifyAuthenticated
         let spotifyLink
         if (isSpotifyAuthenticated == null) { // status not yet loaded
@@ -23,7 +24,11 @@ class Header extends Component {
             )
         } else if (isSpotifyAuthenticated) { // authenticated
             spotifyLink = (
-                <Link to={`/profile/${user.username}`} className={'nav-link'}>Spotify Profile</Link>
+                <Link to={`/profile/${user.username}`} className={'nav-link'}>
+                    Welcome, <span className={'header-profile-link'}>
+                    {'first' in user ? user.first : user.username}
+                </span>
+                </Link>
             )
         } else {
             spotifyLink = ( // if user is not spotify authenticated
@@ -34,22 +39,12 @@ class Header extends Component {
         const authLinks = ( // links to show when user is authenticated
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0" id={'vynle-navbar'}>
                 <li className={'nav-item'}>
-                    {spotifyLink}
+                    <strong>
+                        {spotifyLink}
+                    </strong>
                 </li>
-                <li className={'nav-item'}>
-                    <Link className={'nav-link'} to={'/settings'}>Settings</Link>
-                </li>
-                <li className={'nav-item'}>
-                    <span className={'navbar-text nav-link'}>
-                        <strong>
-                            {user ? `Welcome, ${user.first}` : ''}
-                        </strong>
-                    </span>
-                </li>
-                <li className={'nav-item'}>
-                    <button onClick={this.props.logout}
-                            className={'nav-link btn btn-primary btn-sm text-light'}>Logout
-                    </button>
+                <li>
+                    <HamburgerMenu/>
                 </li>
             </ul>
         )
@@ -87,4 +82,4 @@ const mapStateToProps = state => ({
     isSpotifyAuthenticated: state.spotify.isSpotifyAuthenticated,
 })
 
-export default connect(mapStateToProps, { logout })(Header)
+export default connect(mapStateToProps, {logout})(Header)

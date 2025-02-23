@@ -15,7 +15,7 @@ class Feed extends Component {
     }
 
     componentDidMount() {
-        this.props.getSpotifyAuthStatus()
+        //this.props.getSpotifyAuthStatus() // TODO: cleanup imports if not using
         this.props.getPosts()
     }
 
