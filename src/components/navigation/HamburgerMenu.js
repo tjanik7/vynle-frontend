@@ -8,12 +8,14 @@ function HamburgerMenu(props) {
     const user = props.user
     const username = user?.username
 
+    // TODO: maybe make new private route for routes that need spotify authentication?
+
     return (
         <>
             <FullScreenPopupLayer>
-                <NavListItem linkTo={'/'}>Home</NavListItem>
-                {username ? <NavListItem linkTo={`/profile/${username}`}>Profile</NavListItem> : null}
-                <NavListItem linkTo={'/settings'}>Settings</NavListItem>
+                <NavListItem linkTo={'/'} uniqueKeyString={'home'}>Home</NavListItem>
+                <NavListItem isEnabled={username && props.isSpotifyAuthenticated} linkTo={`/profile/${username}`} uniqueKeyString={'profile'}>Profile</NavListItem>
+                <NavListItem linkTo={'/settings'} uniqueKeyString={'settings'}>Settings</NavListItem>
             </FullScreenPopupLayer>
         </>
     )
@@ -21,6 +23,7 @@ function HamburgerMenu(props) {
 
 const mapStateToProps = state => ({
     user: state.auth.user,
+    isSpotifyAuthenticated: state.spotify.isSpotifyAuthenticated,
 })
 
 export default connect(mapStateToProps)(HamburgerMenu)

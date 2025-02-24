@@ -8,3 +8,8 @@
 .popup-list-item:hover {
     color: var(--vynle-primary)
 }
+
+.hamburger-item-disabled {
+    color: darkgray;
+    font-style: italic;
+}
