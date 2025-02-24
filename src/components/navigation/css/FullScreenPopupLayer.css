@@ -1,0 +1,38 @@
+.link-container {
+    padding-top: 15%;
+    padding-left: 15%;
+}
+
+.popup-layer {
+    background-color: #495057fa;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* Note that navbar currently has z-index of 1030 */
+    z-index: 1035;
+    opacity: 0;
+    transition: opacity 750ms;
+}
+
+.popup-layer-enabled {
+    opacity: 1;
+}
+
+.link-box {
+    position: relative;
+    right: 500px;
+    opacity: 0;
+    transition: right 250ms, opacity 500ms;
+}
+
+.text-final-state {
+    position: relative;
+    opacity: 1;
+    right: 0;
+}
+
+.x-button {
+    background-color: darkgray;
+}
