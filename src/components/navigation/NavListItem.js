@@ -1,20 +1,26 @@
 import React from "react"
 import './css/NavListItem.css'
 import { Link } from "react-router-dom"
-import PropTypes, { string } from "prop-types"
+import PropTypes from "prop-types"
 
-function NavListItem({children, className, linkTo}) {
+function NavListItem({children, linkTo, isEnabled = true}) {
+    if (!isEnabled) {
+        return (
+            <span className={'hamburger-item-disabled'}>{children}</span>
+        )
+    }
+
     return (
-        <div className={className}>
-            <li className={'nav-item my-1'}>
-                <Link className={'active popup-list-item'} to={linkTo}>{children}</Link>
-            </li>
-        </div>
+        <Link className={'popup-list-item'} to={linkTo}>
+            {children}
+        </Link>
     )
 }
 
 NavListItem.propTypes = {
     linkTo: PropTypes.string.isRequired,
+    uniqueKeyString: PropTypes.string.isRequired,
+    isEnabled: PropTypes.bool,
 }
 
 export default NavListItem

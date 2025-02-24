@@ -73,11 +73,14 @@ function FullScreenPopupLayer(props) {
     // (avoids editing child elements which is not recommended)
     const generateListItems = () => {
         const tags = []
+        let child
+
         for (let i = 0; i < children.length; i++) {
+            child = children[i]
             tags.push(
-                <div key={i} onClick={onClick} className={'link-box' + ' ' + (linkClasses[i] ? 'text-final-state' : '')}>
-                    {children[i]}
-                </div>
+                <li key={child.props.uniqueKeyString} onClick={onClick} className={'my-1 link-box' + ' ' + (linkClasses[i] ? 'text-final-state' : '')}>
+                    {child}
+                </li>
             )
         }
         return tags
