@@ -2,4 +2,9 @@
     color: lightgray;
     font-style: italic;
     cursor: pointer;
+    text-decoration: none;
+}
+
+.popup-list-item:hover {
+    color: var(--vynle-primary)
 }

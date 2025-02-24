@@ -21,7 +21,6 @@ import { buildStaticUrl } from "../api/serverLocations"
 import Login from "./accounts/Login"
 import Register from "./accounts/Register"
 import Settings from "./accounts/Settings"
-import HamburgerMenuSandbox from "./navigation/HamburgerMenuSandbox"
 
 class App extends Component {
     componentDidMount() {
@@ -62,7 +61,6 @@ class App extends Component {
                                 <Route path={'/settings'} element={<PrivateRoute>
                                     <Settings/>
                                 </PrivateRoute>}/>
-                                <Route path={'/hamburger'} element={<HamburgerMenuSandbox/>}/>
                             </Routes>
                         </div>
                     </Fragment>

@@ -7,7 +7,7 @@ function FullScreenPopupLayer(props) {
     const children = React.Children.toArray(props.children)
 
     const secondsToDelay = 25 // milliseconds between each new link sliding in from left
-    const animationTime = 500 // Time of animation set in css file
+    const animationTime = 750 // Time of animation set in css file
 
     // Initializes array of empty strings with length 'len'
     const initArray = (len, value) => {
@@ -49,7 +49,8 @@ function FullScreenPopupLayer(props) {
             prevStateArr[i] = false
             setStateAfterDelay(setLinkClasses, prevStateArr, i * secondsToDelay)
         }
-        setStateAfterDelay(setMenuEnabled, false, linkClasses.length * secondsToDelay)
+        // Disable the menu so that this component returns 'null'
+        setStateAfterDelay(setMenuEnabled, false, animationTime)
     }
 
     const tearDown = () => {
@@ -58,13 +59,23 @@ function FullScreenPopupLayer(props) {
         setTransitionInFinalState(false)
     }
 
+    const onClick = () => {
+        if (menuEnabled === true) { // Activate hamburger menu
+            tearDown() // Sets menuEnabled -> false when animation completes
+        } else { // Close hamburger menu
+            setMenuEnabled(true)
+            setLinksToFinalState()
+            setTransitionInFinalState(true)
+        }
+    }
+
     // Wrap each child component in div, so we can edit className
     // (avoids editing child elements which is not recommended)
     const generateListItems = () => {
         const tags = []
         for (let i = 0; i < children.length; i++) {
             tags.push(
-                <div key={i} className={'link-box' + ' ' + (linkClasses[i] ? 'text-final-state' : '')}>
+                <div key={i} onClick={onClick} className={'link-box' + ' ' + (linkClasses[i] ? 'text-final-state' : '')}>
                     {children[i]}
                 </div>
             )
@@ -72,15 +83,17 @@ function FullScreenPopupLayer(props) {
         return tags
     }
 
-    const onClick = () => {
-        if (menuEnabled === true) { // Activate hamburger menu
-            tearDown() // Sets menuEnabled -> false when animation completes
-        } else { // Hide hamburger menu
-            setMenuEnabled(true)
-            setLinksToFinalState()
-            setTransitionInFinalState(true)
-        }
-    }
+    const popupLayer = (
+        <div className={'popup-layer' + ' ' + (transitionInFinalState ? 'popup-layer-enabled' : '')}>
+            <div className={'link-container'}>
+                <div>
+                    <ul className={'nav flex-column'}>
+                        {generateListItems()}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    )
 
     // TODO: cleanup these classes once functionality works as expected (make them all 'change' or something)
 
@@ -93,15 +106,7 @@ function FullScreenPopupLayer(props) {
                 <div className={'menu-button-line bar3'}></div>
             </div>
             {/*Full screen hamburger menu layer*/}
-            <div className={'popup-layer' + ' ' + (transitionInFinalState ? 'popup-layer-enabled' : '')}>
-                <div className={'link-container'}>
-                    <div>
-                        <ul className={'nav flex-column'}>
-                            {generateListItems()}
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            {menuEnabled ? popupLayer : null}
         </>
     )
 }
