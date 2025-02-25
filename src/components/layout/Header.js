@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { logout } from '../../actions/auth'
 import './css/Header.css'
 import { buildStaticUrl } from "../../api/serverLocations"
 import HamburgerMenu from "../navigation/HamburgerMenu"
@@ -10,7 +9,6 @@ import HamburgerMenu from "../navigation/HamburgerMenu"
 class Header extends Component {
     static propTypes = {
         auth: PropTypes.object.isRequired,
-        logout: PropTypes.func.isRequired,
         isSpotifyAuthenticated: PropTypes.bool,
     }
 
@@ -82,4 +80,4 @@ const mapStateToProps = state => ({
     isSpotifyAuthenticated: state.spotify.isSpotifyAuthenticated,
 })
 
-export default connect(mapStateToProps, {logout})(Header)
+export default connect(mapStateToProps, {})(Header)
