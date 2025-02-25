@@ -1,8 +1,19 @@
 // Spotify actions
 import axiosInstance from "../api/axiosInstance"
 
-import { GET_SPOTIFY_AUTH_STATUS, GET_SPOTIFY_AUTH_URL, GET_CURRENT_USER_SPOTIFY_PROFILE } from './types'
+import {
+    GET_SPOTIFY_AUTH_STATUS,
+    GET_SPOTIFY_AUTH_URL,
+    GET_CURRENT_USER_SPOTIFY_PROFILE,
+    RESET_SPOTIFY_AUTH_STATUS
+} from './types'
 import { reduxTokenConfig } from "../api/tokenConfig"
+
+export const resetSpotifyAuthStatus = () => (dispatch, getState) => {
+    dispatch({
+        type: RESET_SPOTIFY_AUTH_STATUS,
+    })
+}
 
 export const getCurrentUserSpotifyProfile = () => (dispatch, getState) => {
     axiosInstance.get('spotify/get-current-user-spotify-profile', reduxTokenConfig(getState))
