@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { getSpotifyAuthStatus } from "../../actions/spotify"
 import PropTypes from "prop-types"
 
-// TODO: exit hamburger w esc key
 
 const PrivateRoute = (props) => {
 
