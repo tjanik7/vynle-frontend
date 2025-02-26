@@ -1,10 +1,11 @@
 import React, { useEffect } from "react"
 import AxiosInstance from "../../api/axiosInstance"
-import { useSelector } from "react-redux"
+import { connect, useSelector } from "react-redux"
 import { useLocation, useNavigate } from "react-router-dom"
 import { formatHeader } from "../../api/formatHeader"
+import { getSpotifyAuthStatus } from "../../actions/spotify"
 
-function SpotifyCallback() {
+function SpotifyCallback(props) {
     const navigate = useNavigate()
     const token = useSelector(state => state.auth.token)
     const location = useLocation()
@@ -14,6 +15,7 @@ function SpotifyCallback() {
         AxiosInstance
             .get(`/spotify/redirect?${params}`, formatHeader(token))
             .then(res => {
+                props.getSpotifyAuthStatus()
                 navigate('/')
             })
     }, []);
@@ -23,4 +25,6 @@ function SpotifyCallback() {
     )
 }
 
-export default SpotifyCallback
+const mapStateToProps = state => ({})
+
+export default connect(mapStateToProps, {getSpotifyAuthStatus})(SpotifyCallback)

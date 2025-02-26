@@ -1,0 +1,28 @@
+.link-spotify-container-parent {
+    display: flex;
+    height: 85vh;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    --v-logo-side-len: 125px;
+    --spotify-logo-side-len: 100px;
+}
+
+.v-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.v-logo-container > img.v-logo {
+    height: var(--v-logo-side-len);
+    width: var(--v-logo-side-len);
+    margin: 15px;
+}
+
+.v-logo-container > img.spotify {
+    height: var(--spotify-logo-side-len);
+    width: var(--spotify-logo-side-len);
+    margin: 15px;
+}

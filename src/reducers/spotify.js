@@ -1,7 +1,7 @@
 import {
     GET_SPOTIFY_AUTH_STATUS,
     GET_SPOTIFY_AUTH_URL,
-    GET_CURRENT_USER_SPOTIFY_PROFILE,
+    GET_CURRENT_USER_SPOTIFY_PROFILE, RESET_SPOTIFY_AUTH_STATUS,
 } from '../actions/types'
 
 const initialState = {
@@ -26,6 +26,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 id: action.payload.id
+            }
+        case RESET_SPOTIFY_AUTH_STATUS:
+            return {
+                ...state,
+                isSpotifyAuthenticated: null,
             }
         default:
             return state

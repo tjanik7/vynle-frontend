@@ -21,6 +21,7 @@ import { buildStaticUrl } from "../api/serverLocations"
 import Login from "./accounts/Login"
 import Register from "./accounts/Register"
 import Settings from "./accounts/Settings"
+import LinkSpotifyAccount from "./spotify/LinkSpotifyAccount"
 
 class App extends Component {
     componentDidMount() {
@@ -39,13 +40,16 @@ class App extends Component {
                                 <Route path={'/create-post-form'} element={<PrivateRoute>
                                     <Form/>
                                 </PrivateRoute>}/>
+                                <Route path={'/link-spotify-account'} element={<PrivateRoute>
+                                    <LinkSpotifyAccount/>
+                                </PrivateRoute>}/>
                                 <Route path={'/spotify-redirect'} element={<PrivateRoute>
                                     <SpotifyRedirect/>
                                 </PrivateRoute>}/>
                                 <Route path={'/spotify_callback'} element={<PrivateRoute>
                                     <SpotifyCallback/>
                                 </PrivateRoute>}/>
-                                <Route path={'/profile/:username'} element={<PrivateRoute>
+                                <Route path={'/profile/:username'} element={<PrivateRoute requireSpotifyAuthentication={true}>
                                     <Profile/>
                                 </PrivateRoute>}/>
                                 <Route path='/' element={<PrivateRoute>
