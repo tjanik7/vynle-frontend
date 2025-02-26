@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="27.827744mm"
+   height="27.827755mm"
+   viewBox="0 0 27.827744 27.827755"
+   version="1.1"
+   id="svg32533"
+   inkscape:version="1.2 (dc2aeda, 2022-05-15)"
+   sodipodi:docname="vynle-logos-v1.svg"
+   inkscape:export-filename="../Downloads/favicon.svg"
+   inkscape:export-xdpi="113.89938"
+   inkscape:export-ydpi="113.89938"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview32535"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.96504997"
+     inkscape:cx="593.23353"
+     inkscape:cy="613.95785"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
+     inkscape:window-x="3432"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs32530" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-216.55625,-60.901079)">
+    <path
+       id="path2400"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.285524;stroke-linecap:round;stroke-linejoin:bevel;stroke-opacity:1;paint-order:stroke fill markers"
+       d="m 230.47014,60.901079 a 13.913897,13.913897 0 0 0 -13.91388,13.913879 13.913897,13.913897 0 0 0 13.91388,13.913875 13.913897,13.913897 0 0 0 9.27851,-3.5574 l -2.85306,-1.65003 a 10.829535,10.829535 0 0 1 -6.42545,2.12287 10.829535,10.829535 0 0 1 -10.82931,-10.829315 10.829535,10.829535 0 0 1 10.82931,-10.829313 10.829535,10.829535 0 0 1 6.41977,2.118217 l 2.85719,-1.646928 a 13.913897,13.913897 0 0 0 -9.27696,-3.555855 z"
+       inkscape:export-filename="../Dev/vynle-frontend/proxy-devel/static/img/vynle-spinner.svg"
+       inkscape:export-xdpi="99.530701"
+       inkscape:export-ydpi="99.530701" />
+  </g>
+</svg>
