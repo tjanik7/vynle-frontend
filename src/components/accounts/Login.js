@@ -6,6 +6,7 @@ import { login } from '../../actions/auth'
 import { getFieldHasErrorObj } from "../helperFunctions"
 import AuthField from "./AuthField"
 import formHasError from './formValidator'
+import Spinner from "../common/Spinner"
 
 function Login(props) {
     function handleSubmit(e) {
@@ -59,8 +60,7 @@ function Login(props) {
                         {/*Login button and spinner*/}
                         <div className={'form-group'}>
                             <button type={'submit'} className={'btn btn-primary mb-2'}>
-                                {isLoading ? <span className={'spinner-border spinner-border-sm'}
-                                                   role='status' aria-hidden={'true'}/> : null}
+                                <Spinner isEnabled={isLoading}/>
                                 <span className={'px-1'}>Login</span>
                             </button>
                         </div>
