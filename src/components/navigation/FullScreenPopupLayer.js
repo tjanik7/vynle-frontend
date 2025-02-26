@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import './css/FullScreenPopupLayer.css'
 
 function FullScreenPopupLayer(props) {
@@ -22,6 +22,23 @@ function FullScreenPopupLayer(props) {
     const [menuEnabled, setMenuEnabled] = useState(false)
     const [linkClasses, setLinkClasses] = useState(initArray(children.length, false))
     const [transitionInFinalState, setTransitionInFinalState] = useState(false)
+
+    // Create and remove event listener for ESC key when menu is enabled or disabled
+
+    const handleEscPress = (e) => {
+        if (menuEnabled) {
+            tearDown()
+        }
+    }
+
+    useEffect(() => {
+        if (menuEnabled) {
+            document.addEventListener('keydown', handleEscPress)
+        }
+        return () => {
+            document.removeEventListener('keydown', handleEscPress)
+        }
+    }, [menuEnabled]);
 
     // Wrapping setTimeout in function preserves local variables from loop (via function's stack frame)
     function setStateAfterDelay(setter, newValue, delayLength) {
@@ -60,9 +77,9 @@ function FullScreenPopupLayer(props) {
     }
 
     const onClick = () => {
-        if (menuEnabled === true) { // Activate hamburger menu
+        if (menuEnabled === true) { // Close hamburger menu
             tearDown() // Sets menuEnabled -> false when animation completes
-        } else { // Close hamburger menu
+        } else { // Open hamburger menu
             setMenuEnabled(true)
             setLinksToFinalState()
             setTransitionInFinalState(true)
@@ -78,7 +95,8 @@ function FullScreenPopupLayer(props) {
         for (let i = 0; i < children.length; i++) {
             child = children[i]
             tags.push(
-                <li key={child.props.uniqueKeyString} onClick={onClick} className={'my-1 link-box' + ' ' + (linkClasses[i] ? 'text-final-state' : '')}>
+                <li key={child.props.uniqueKeyString} onClick={onClick}
+                    className={'my-1 link-box' + ' ' + (linkClasses[i] ? 'text-final-state' : '')}>
                     {child}
                 </li>
             )

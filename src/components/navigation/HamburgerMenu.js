@@ -8,8 +8,6 @@ function HamburgerMenu(props) {
     const user = props.user
     const username = user?.username
 
-    // TODO: maybe make new private route for routes that need spotify authentication?
-
     return (
         <>
             <FullScreenPopupLayer>
