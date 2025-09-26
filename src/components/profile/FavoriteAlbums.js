@@ -24,7 +24,7 @@ function generateAlbumTags(props, setSearchDisplayed, isClickable) {
             setSearchDisplayed(true);
           }}
         />
-      </Col>
+      </Col>,
     );
   }
   return columns;

@@ -1,8 +1,8 @@
 #logo-main {
-    height: 50px;
-    width: auto;
+  height: 50px;
+  width: auto;
 }
 
 .header-profile-link:hover {
-    color: var(--vynle-primary);
+  color: var(--vynle-primary);
 }

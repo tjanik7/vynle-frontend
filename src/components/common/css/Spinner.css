@@ -1,13 +1,13 @@
 .vynle-spinner > img {
-    --spinner-side-len: 1em;
-    height: var(--spinner-side-len);
-    width: var(--spinner-side-len);
-    animation: 1s linear infinite vynle-spinner-animation;
-    margin: 3px 5px 3px 0;
+  --spinner-side-len: 1em;
+  height: var(--spinner-side-len);
+  width: var(--spinner-side-len);
+  animation: 1s linear infinite vynle-spinner-animation;
+  margin: 3px 5px 3px 0;
 }
 
 @keyframes vynle-spinner-animation {
-    to {
-        transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
+  }
 }
