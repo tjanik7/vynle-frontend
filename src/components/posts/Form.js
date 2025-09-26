@@ -6,9 +6,15 @@ import { useEffect } from "react"
 import Search from "../search/Search"
 import CoverArt from "../cover_art/CoverArt"
 import './css/Form.css'
+import CoverArt from "../cover_art/CoverArt"
 
 function setSelectedAlbum(newAlbum, setPostAlbum) { // Callback function to be passed to <Search/>
-    setPostAlbum(newAlbum)
+    // TODO: This is a temporary patch. Setting this field occurs in redux when we set a
+    // new album in FavoriteAlbums component. Need to decide if I still want to use redux for
+    // the search component.
+    newAlbum.fetched = true;
+
+    setPostAlbum(newAlbum);
 }
 
 function Form(props) {
@@ -71,7 +77,9 @@ function Form(props) {
                 <div className={'form-group'}>
                     <label>Search Spotify for a Song</label>
                     <div className={'post-form-cover-art-container'}>
-                        <CoverArt albumData={postAlbum} handleClick={() => {
+                        <CoverArt
+                        albumData={postAlbum}
+                        handleClick={() => {
                             setSearchVisibility(true)
                         }}/>
                     </div>

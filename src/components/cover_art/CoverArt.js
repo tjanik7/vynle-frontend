@@ -1,104 +1,102 @@
-import React, { Component, Fragment } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import './css/CoverArt.css'
-import { buildStaticUrl } from "../../api/serverLocations"
+import React, { useRef } from "react";
+import { Fragment, useState } from "react";
+import { buildStaticUrl } from "../../api/serverLocations";
+import "./css/CoverArt.css";
+import PropTypes from "prop-types";
 
-class CoverArt extends Component {
-    static propTypes = {
-        handleClick: PropTypes.func,
-        albumData: PropTypes.object,
-        isClickable: PropTypes.bool,
-        fontSize: PropTypes.number,
-        displayReleaseInfoText: PropTypes.bool,
-        ind: PropTypes.number.isRequired,
-    }
+// TODO: clean up css file and dedup unneeded classes
+// TODO: change name of this class and references to it
 
-    handleHover(ind) {
-        const slider = document.getElementById('sliding-box-' + ind)
-        const releaseInfoAligner = document.getElementById('release-info-aligner-' + ind)
+function CoverArt(props) {
+  // TODO: possibly recheck num rerenders
+  // Similar to state in that it tracks a value, but it does not trigger a rerender on change
+  // (the value does persist between renders)
 
-        slider.style.height = String(
-            document.getElementById('release-img-' + ind).offsetHeight + releaseInfoAligner.offsetHeight
-        ) + 'px'
-    }
+  const imageRef = useRef(null);
+  const alignerRef = useRef(null);
 
-    resetHover(ind) {
-        const img = document.getElementById('release-img-' + ind)
-        const imgHeight = img.offsetHeight
+  const onMouseOver = () => {
+    const imgHeight = imageRef.current.offsetHeight;
+    const alignerHeight = alignerRef.current.offsetHeight;
 
-        document.getElementById('sliding-box-' + ind).style.height = imgHeight.toString() + 'px'
-    }
+    setDropdownHeight(imgHeight + alignerHeight);
+  };
 
-    render() {
-        const ind = this.props.ind.toString()
-        const release = this.props.albumData.release
-        const releaseIsPopulated = release != null
+  const onMouseOut = () => {
+    setDropdownHeight(imageRef.current.offsetHeight);
+  };
 
-        // If no art is set, and it is not clickable (meaning they are not the owner of this profile), render gray div
-        if (!release?.img && !this.props.isClickable) {
-            return (
-                <Fragment>
-                    <div className={'no-art-set img-edge-curve'}></div>
-                </Fragment>
-            )
-        }
+  const release = props.albumData?.fetched ? props.albumData.release : null;
 
-        const fontSize = this.props.fontSize ? this.props.fontSize.toString() + 'px' : '12px'
-        const textStyle = {
-            fontSize: fontSize,
-        }
+  // No release art & not clickable
+  if (!release?.img && !props.isClickable) {
+    return (
+      <Fragment>
+        <div className="album-art-img no-art-set"></div>
+      </Fragment>
+    );
+  }
 
-        let releaseInfoText = null
-        if (this.props.displayReleaseInfoText && releaseIsPopulated) {
-            releaseInfoText = (
-                <div className={'release-info-sliding-box'}
-                     id={'sliding-box-' + ind}
-                     style={textStyle}
-                >
-                    <div id={'release-info-aligner-' + ind} className={'release-info-aligner'}>
-                        <p className={'info-line release-name'}>{release.name}</p>
-                        <p className={'info-line'}>{release.artist}</p>
-                    </div>
-                </div>
-            )
-        }
+  const image = (
+    <img
+      src={release?.img ? release.img : buildStaticUrl("img/plus.png")}
+      ref={imageRef}
+      alt={"Album"}
+      className="album-art-img clickable"
+      // First operand decides whether we pass func
+      onMouseOver={release && onMouseOver}
+      onMouseOut={release && onMouseOut}
+      onClick={props.isClickable && props.handleClick}
+    />
+  );
 
-        return (
-            <div className={'release-container'}>
-                <img
-                    src={release?.img ? release.img : buildStaticUrl('img/plus.png')}
-                    alt={'Album'}
-                    id={'release-img-' + ind}
-                    onMouseOver={() => {
-                        if (releaseIsPopulated) {
-                            this.handleHover(this.props.ind)
-                        }
-                    }}
-                    onMouseOut={() => {
-                        if (releaseIsPopulated) {
-                            this.resetHover(ind)
-                        }
-                    }}
-                    className={'album-art-img img-edge-curve ' + (this.props.isClickable ? 'clickable' : null)}
-                    onClick={() => {
-                        // Only call callback func if it exists and is clickable
-                        if (this.props.isClickable && this.props.handleClick) {
-                            this.props.handleClick()
-                        }
-                    }}
-                />
-                {releaseInfoText}
-            </div>
-        )
-    }
+  // Controls whether info div "drops down" from behind release image
+  const [dropdownHeight, setDropdownHeight] = useState("100%");
+
+  // Init info box that drops down when user mouses over the art & container inside
+  let releaseInfoDropdown = null;
+  let releaseInfoAligner = null;
+  if (props.displayReleaseInfoText && release) {
+    releaseInfoAligner = (
+      <div ref={alignerRef} className="release-info-aligner">
+        <p className="info-line release-name">{release.name}</p>
+        <p className="info-line">{release.artist}</p>
+      </div>
+    );
+
+    releaseInfoDropdown = (
+      <div
+        className="release-info-sliding-box"
+        style={{
+          fontSize: props.fontSize,
+          height: dropdownHeight,
+        }}
+      >
+        {releaseInfoAligner}
+      </div>
+    );
+  }
+
+  return (
+    <div className="release-container">
+      {image}
+      {releaseInfoDropdown}
+    </div>
+  );
 }
+
+CoverArt.propTypes = {
+  handleClick: PropTypes.func,
+  albumData: PropTypes.object,
+  isClickable: PropTypes.bool,
+  fontSize: PropTypes.number,
+  displayReleaseInfoText: PropTypes.bool,
+};
 
 CoverArt.defaultProps = {
-    isClickable: true,
-    displayReleaseInfoText: true,
-}
+  isClickable: true,
+  displayReleaseInfoText: true,
+  fontSize: 12,
+};
 
-const mapStateToProps = state => ({})
-
-export default connect(mapStateToProps, {})(CoverArt)
+export default CoverArt;
