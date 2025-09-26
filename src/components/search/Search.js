@@ -11,7 +11,7 @@ const TIME_TO_WAIT = 500; // ms to wait after user stops typing to send request
 class Search extends Component {
   state = {
     q: "", // stores current value of search query bar
-    t: null,
+    t: null, // Time since user last typed - used to trigger Spotify search
   };
 
   static propTypes = {
@@ -130,7 +130,7 @@ class Search extends Component {
                       this.props.clickFunction,
                       this.transformAlbumObj(result),
                       this.props.clearSearchVisibility,
-                      this.props.clickFunctionArgs,
+                      this.props.clickFunctionArgs
                     )}
                   />
                 ))}
