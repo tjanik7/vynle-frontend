@@ -12,6 +12,11 @@ function CoverArt(props) {
   // Similar to state in that it tracks a value, but it does not trigger a rerender on change
   // (the value does persist between renders)
 
+  // --- State ---
+  // Controls whether info div "drops down" from behind release image
+  const [dropdownHeight, setDropdownHeight] = useState("100%");
+
+  // --- Refs ---
   const imageRef = useRef(null);
   const alignerRef = useRef(null);
 
@@ -50,19 +55,17 @@ function CoverArt(props) {
     />
   );
 
-  // Controls whether info div "drops down" from behind release image
-  const [dropdownHeight, setDropdownHeight] = useState("100%");
-
   // Init info box that drops down when user mouses over the art & container inside
   let releaseInfoDropdown = null;
   let releaseInfoAligner = null;
   if (props.displayReleaseInfoText && release) {
-    releaseInfoAligner = (
-      <div ref={alignerRef} className="release-info-aligner">
-        <p className="info-line release-name">{release.name}</p>
-        <p className="info-line">{release.artist}</p>
-      </div>
-    );
+    releaseInfoAligner = // Container for the text inside the dropdown
+      (
+        <div ref={alignerRef} className="release-info-aligner">
+          <p className="info-line release-name">{release.name}</p>
+          <p className="info-line">{release.artist}</p>
+        </div>
+      );
 
     releaseInfoDropdown = (
       <div
@@ -86,7 +89,7 @@ function CoverArt(props) {
 }
 
 CoverArt.propTypes = {
-  handleClick: PropTypes.func,
+  handleClick: PropTypes.func, // Runs on click of img tag
   albumData: PropTypes.object,
   isClickable: PropTypes.bool,
   fontSize: PropTypes.number,

@@ -78,6 +78,7 @@ function Form(props) {
           <div className={"post-form-cover-art-container"}>
             <CoverArt
               albumData={postAlbum}
+              displayReleaseInfoText={true}
               handleClick={() => {
                 setSearchVisibility(true);
               }}
