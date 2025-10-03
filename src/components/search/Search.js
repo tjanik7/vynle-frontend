@@ -103,19 +103,19 @@ class Search extends Component {
         ></div>
         <div className={"search-component"}>
           <h3 id={"search-bar-header"}>Search for Music</h3>
-          <form onSubmit={this.onSubmit}>
-            <div className={"form-group searchbar-form-group"}>
-              <input
-                className={"form-control"}
-                type={"text"}
-                name={"q"}
-                onChange={this.onSearchbarChange}
-                value={q}
-                autoComplete={"off"}
-                placeholder={"Search..."}
-              />
-            </div>
-          </form>
+          {/* <form onSubmit={this.onSubmit}> */}
+          <div className={"form-group searchbar-form-group"}>
+            <input
+              className={"form-control"}
+              type={"text"}
+              name={"q"}
+              onChange={this.onSearchbarChange}
+              value={q}
+              autoComplete={"off"}
+              placeholder={"Search..."}
+            />
+          </div>
+          {/* </form> */}
           <Container>
             <Row>
               <Col className={"dropdown-column"}>
