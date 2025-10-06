@@ -35,7 +35,7 @@ function SearchableCoverArt(props) {
   // Search component
   const search = searchVisibility ? (
     <Search
-      clickFunction={setSelectedAlbum}
+      setRelease={setSelectedAlbum}
       clearSearchVisibility={() => {
         setSearchVisibility(false);
       }}

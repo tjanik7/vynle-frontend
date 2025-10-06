@@ -17,12 +17,12 @@ class Search extends Component {
   static propTypes = {
     albums: PropTypes.array,
     search: PropTypes.func.isRequired,
-    clickFunction: PropTypes.func.isRequired,
-    clickFunctionArgs: PropTypes.array,
+    setRelease: PropTypes.func.isRequired,
     clearSearchVisibility: PropTypes.func.isRequired, // Sets visibility state to false
   };
 
   handleEscKey = (event) => {
+    // Code for escape key
     if (event.keyCode === 27) {
       this.props.clearSearchVisibility();
     }
@@ -62,20 +62,6 @@ class Search extends Component {
       [e.target.name]: e.target.value,
     });
     this.timerReset(e.target.value);
-  };
-
-  configureClickFunction = (func, firstArg, clearVisibility, args) => {
-    if (args) {
-      // Only use spread operator if extra args are specified
-      return () => {
-        func(firstArg, ...args);
-        clearVisibility();
-      };
-    } // NEED TO SIMPLIFY THESE
-    return () => {
-      func(firstArg);
-      clearVisibility();
-    };
   };
 
   transformAlbumObj = (album) => {
@@ -126,12 +112,10 @@ class Search extends Component {
                     media={result.name}
                     artist={result.artists[0].name}
                     img={result.images[1].url}
-                    clickFunction={this.configureClickFunction(
-                      this.props.clickFunction,
-                      this.transformAlbumObj(result),
-                      this.props.clearSearchVisibility,
-                      this.props.clickFunctionArgs
-                    )}
+                    onClick={() => {
+                      this.props.setRelease(this.transformAlbumObj(result));
+                      this.props.clearSearchVisibility();
+                    }}
                   />
                 ))}
               </Col>
