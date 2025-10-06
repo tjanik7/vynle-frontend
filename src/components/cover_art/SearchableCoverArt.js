@@ -14,6 +14,7 @@ function SearchableCoverArt(props) {
         // new album in FavoriteAlbums component. Need to decide if I still want to use redux for
         // the search component.
         newAlbum.fetched = true;
+        setSearchVisibility(false);
         props.setRelease(newAlbum);
     }
 

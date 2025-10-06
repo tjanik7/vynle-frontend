@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { search, clearSearchResults } from "../../actions/spotifySearch";
 import DropdownRow from "../search/DropdownRow";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row, Button } from "react-bootstrap";
 import "./css/Search.css";
 
 const TIME_TO_WAIT = 500; // ms to wait after user stops typing to send request
@@ -64,9 +64,11 @@ class Search extends Component {
         this.timerReset(e.target.value);
     };
 
-    transformAlbumObj = (album) => {
+    prepareAlbumObj = (album) => {
         if (!album) {
-            return {};
+            return {
+                spotify_release_uri: "",
+            };
         }
 
         return {
@@ -81,6 +83,22 @@ class Search extends Component {
 
     render() {
         const { q } = this.state;
+
+        // Only show clear selection button if no search results
+        const clearSelectionButton =
+            this.props.albums.length === 0 ? (
+                <div className="clear-selection-btn-container">
+                    <Button
+                        variant="primary"
+                        onClick={() => {
+                            this.props.setRelease(this.prepareAlbumObj(null));
+                        }}
+                    >
+                        Clear Selection
+                    </Button>
+                </div>
+            ) : null;
+
         return (
             <>
                 <div
@@ -100,27 +118,30 @@ class Search extends Component {
                             placeholder={"Search..."}
                         />
                     </div>
-                    <Container>
-                        <Row>
-                            <Col className={"dropdown-column"}>
-                                {this.props.albums.map((result) => (
-                                    <DropdownRow
-                                        key={result.id}
-                                        dataKey={result.id}
-                                        media={result.name}
-                                        artist={result.artists[0].name}
-                                        img={result.images[1].url}
-                                        onClick={() => {
-                                            this.props.setRelease(
-                                                this.transformAlbumObj(result)
-                                            );
-                                            this.props.clearSearchVisibility();
-                                        }}
-                                    />
-                                ))}
-                            </Col>
-                        </Row>
-                    </Container>
+                    {/* Container for items below search bar */}
+                    <div className="search-dropdown-container">
+                        {clearSelectionButton}
+                        <Container>
+                            <Row>
+                                <Col className={"dropdown-column"}>
+                                    {this.props.albums.map((result) => (
+                                        <DropdownRow
+                                            key={result.id}
+                                            dataKey={result.id}
+                                            media={result.name}
+                                            artist={result.artists[0].name}
+                                            img={result.images[1].url}
+                                            onClick={() => {
+                                                this.props.setRelease(
+                                                    this.prepareAlbumObj(result)
+                                                );
+                                            }}
+                                        />
+                                    ))}
+                                </Col>
+                            </Row>
+                        </Container>
+                    </div>
                 </div>
             </>
         );

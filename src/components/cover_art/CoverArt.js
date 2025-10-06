@@ -16,6 +16,9 @@ function CoverArt(props) {
     const imageRef = useRef(null);
     const alignerRef = useRef(null);
 
+    const release = props.albumData?.fetched ? props.albumData.release : null;
+    const releaseIsPopulated = release?.name.length > 0;
+
     const onMouseOver = () => {
         const imgHeight = imageRef.current.offsetHeight;
         const alignerHeight = alignerRef.current.offsetHeight;
@@ -26,8 +29,6 @@ function CoverArt(props) {
     const onMouseOut = () => {
         setDropdownHeight(imageRef.current.offsetHeight);
     };
-
-    const release = props.albumData?.fetched ? props.albumData.release : null;
 
     // No release art & not clickable
     if (!release?.img && !props.isClickable) {
@@ -47,8 +48,8 @@ function CoverArt(props) {
                 "album-art-img" + (props.isClickable ? " clickable" : "")
             }
             // First operand decides whether we pass func
-            onMouseOver={release && onMouseOver}
-            onMouseOut={release && onMouseOut}
+            onMouseOver={releaseIsPopulated ? onMouseOver : undefined}
+            onMouseOut={releaseIsPopulated ? onMouseOut : undefined}
             onClick={props.isClickable ? props.handleClick : undefined}
         />
     );
@@ -56,7 +57,7 @@ function CoverArt(props) {
     // Init info box that drops down when user mouses over the art & container inside
     let releaseInfoDropdown = null;
     let releaseInfoAligner = null;
-    if (props.displayReleaseInfoText && release) {
+    if (props.displayReleaseInfoText && releaseIsPopulated) {
         releaseInfoAligner = // Container for the text inside the dropdown
             (
                 <div ref={alignerRef} className="release-info-aligner">
