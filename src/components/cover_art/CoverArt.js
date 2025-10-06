@@ -4,14 +4,15 @@ import { buildStaticUrl } from "../../api/serverLocations";
 import "./css/CoverArt.css";
 import PropTypes from "prop-types";
 
-// TODO: clean up css file and dedup unneeded classes
-// TODO: change name of this class and references to it
-
 function CoverArt(props) {
-  // TODO: possibly recheck num rerenders
   // Similar to state in that it tracks a value, but it does not trigger a rerender on change
   // (the value does persist between renders)
 
+  // --- State ---
+  // Controls whether info div "drops down" from behind release image
+  const [dropdownHeight, setDropdownHeight] = useState("100%");
+
+  // --- Refs ---
   const imageRef = useRef(null);
   const alignerRef = useRef(null);
 
@@ -42,27 +43,25 @@ function CoverArt(props) {
       src={release?.img ? release.img : buildStaticUrl("img/plus.png")}
       ref={imageRef}
       alt={"Album"}
-      className="album-art-img clickable"
+      className={"album-art-img" + (props.isClickable ? " clickable" : "")}
       // First operand decides whether we pass func
       onMouseOver={release && onMouseOver}
       onMouseOut={release && onMouseOut}
-      onClick={props.isClickable && props.handleClick}
+      onClick={props.isClickable ? props.handleClick : undefined}
     />
   );
-
-  // Controls whether info div "drops down" from behind release image
-  const [dropdownHeight, setDropdownHeight] = useState("100%");
 
   // Init info box that drops down when user mouses over the art & container inside
   let releaseInfoDropdown = null;
   let releaseInfoAligner = null;
   if (props.displayReleaseInfoText && release) {
-    releaseInfoAligner = (
-      <div ref={alignerRef} className="release-info-aligner">
-        <p className="info-line release-name">{release.name}</p>
-        <p className="info-line">{release.artist}</p>
-      </div>
-    );
+    releaseInfoAligner = // Container for the text inside the dropdown
+      (
+        <div ref={alignerRef} className="release-info-aligner">
+          <p className="info-line release-name">{release.name}</p>
+          <p className="info-line">{release.artist}</p>
+        </div>
+      );
 
     releaseInfoDropdown = (
       <div
@@ -78,7 +77,7 @@ function CoverArt(props) {
   }
 
   return (
-    <div className="release-container">
+    <div className="release-container" style={{ width: props.width }}>
       {image}
       {releaseInfoDropdown}
     </div>
@@ -86,15 +85,17 @@ function CoverArt(props) {
 }
 
 CoverArt.propTypes = {
-  handleClick: PropTypes.func,
+  handleClick: PropTypes.func, // Runs on click of img tag
   albumData: PropTypes.object,
   isClickable: PropTypes.bool,
+  width: PropTypes.string, // Allow client to dynamically specify width (in % or pixels) for the CoverArt while retaining 1:1 aspect ratio
   fontSize: PropTypes.number,
   displayReleaseInfoText: PropTypes.bool,
 };
 
 CoverArt.defaultProps = {
   isClickable: true,
+  width: "100%",
   displayReleaseInfoText: true,
   fontSize: 12,
 };

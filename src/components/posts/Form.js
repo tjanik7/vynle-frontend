@@ -3,35 +3,12 @@ import { addPost, clearPostSubmissionStatus } from "../../actions/posts";
 import { connect } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import Search from "../search/Search";
-import CoverArt from "../cover_art/CoverArt";
-import "./css/Form.css";
-
-function setSelectedAlbum(newAlbum, setPostAlbum) {
-  // Callback function to be passed to <Search/>
-  // TODO: This is a temporary patch. Setting this field occurs in redux when we set a
-  // new album in FavoriteAlbums component. Need to decide if I still want to use redux for
-  // the search component.
-  newAlbum.fetched = true;
-
-  setPostAlbum(newAlbum);
-}
+import SearchableCoverArt from "../cover_art/SearchableCoverArt";
 
 function Form(props) {
-  // Switch to only using local state now rather than the (global) redux store
-  const [searchVisibility, setSearchVisibility] = useState(false);
-
-  // Set default values for the form fields
+  // State
   const [postBody, setPostBody] = useState("");
-
-  const [postAlbum, setPostAlbum] = useState({
-    spotify_release_uri: "",
-    release: {
-      artist: "",
-      img: "",
-      name: "",
-    },
-  });
+  const [release, setRelease] = useState(null);
 
   const navigate = useNavigate();
 
@@ -53,7 +30,7 @@ function Form(props) {
 
     const post = {
       body: postBody,
-      spotify_release_uri: postAlbum.spotify_release_uri,
+      spotify_release_uri: release?.spotify_release_uri,
     };
 
     // Needs to be accessed via props, cannot just import it and call it due to the way React works
@@ -75,14 +52,12 @@ function Form(props) {
         </div>
         <div className={"form-group"}>
           <label>Search Spotify for a Song</label>
-          <div className={"post-form-cover-art-container"}>
-            <CoverArt
-              albumData={postAlbum}
-              handleClick={() => {
-                setSearchVisibility(true);
-              }}
-            />
-          </div>
+          <SearchableCoverArt
+            release={release}
+            setRelease={setRelease}
+            imageWidth={"25%"}
+            fontSize={12}
+          />
         </div>
         <div className={"form-group"}>
           <button type={"submit"} className={"btn btn-primary my-2"}>
@@ -93,17 +68,6 @@ function Form(props) {
           </Link>
         </div>
       </form>
-      <div className={"form-group"}>
-        {searchVisibility && (
-          <Search
-            clickFunction={setSelectedAlbum}
-            clickFunctionArgs={[setPostAlbum]}
-            clearSearchVisibility={() => {
-              setSearchVisibility(false);
-            }}
-          />
-        )}
-      </div>
     </div>
   );
 }

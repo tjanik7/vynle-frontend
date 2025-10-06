@@ -6,9 +6,7 @@
   position: relative;
   background-color: var(--vynle-gray);
   border-radius: 10px;
-  height: 0;
-  padding-bottom: 50%;
-  padding-top: 50%;
+  aspect-ratio: 1;
   display: flex;
 }
 
@@ -16,6 +14,8 @@
   max-width: 100%;
   align-self: center;
   border-radius: 10px;
+  z-index: 2;
+  aspect-ratio: 1;
 }
 
 .clickable {
@@ -35,7 +35,6 @@
   transition: height 400ms ease-in-out;
   position: absolute;
   border-radius: 10px;
-  z-index: -1;
   width: 100%;
   height: 100%;
   overflow: hidden;
