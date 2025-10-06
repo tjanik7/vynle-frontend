@@ -3237,8 +3237,8 @@ fieldset:disabled .btn {
 }
 
 .btn-secondary {
-    color: #fff;
-    background-color: #6c757d;
+    color: white;
+    background-color: var(--vynle-primary);
     border-color: white;
 }
 
