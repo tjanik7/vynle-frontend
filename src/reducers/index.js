@@ -9,21 +9,21 @@ import { USER_LOGGED_OUT } from "../actions/types";
 import postDetail from "./postDetail";
 
 const appReducer = combineReducers({
-  posts,
-  auth,
-  errors,
-  spotify,
-  spotifySearch,
-  profile,
-  postDetail,
+    posts,
+    auth,
+    errors,
+    spotify,
+    spotifySearch,
+    profile,
+    postDetail,
 });
 
 const rootReducer = (state, action) => {
-  if (action.type === USER_LOGGED_OUT) {
-    state = undefined;
-  }
+    if (action.type === USER_LOGGED_OUT) {
+        state = undefined;
+    }
 
-  return appReducer(state, action);
+    return appReducer(state, action);
 };
 
 export default rootReducer;

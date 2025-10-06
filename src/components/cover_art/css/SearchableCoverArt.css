@@ -1,10 +1,10 @@
 .cover-art-container {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
 }
 
 /* Needs to be positioned at the top of the z-stack */
 .search-container {
-  position: relative;
-  z-index: 1000;
+    position: relative;
+    z-index: 1000;
 }

@@ -8,50 +8,50 @@ import SearchableCoverArt from "../cover_art/SearchableCoverArt";
 const NUM_ALBUMS = 6;
 
 function generateAlbumTags(props) {
-  const columns = [];
-  const releaseArray = props.profile.favoriteAlbums;
+    const columns = [];
+    const releaseArray = props.profile.favoriteAlbums;
 
-  // "Lock in" index argument of release setter since only arg expected
-  const createReleaseSetter = (idx) => {
-    return (newRelease) => {
-      props.setFavAlbum(newRelease, idx);
+    // "Lock in" index argument of release setter since only arg expected
+    const createReleaseSetter = (idx) => {
+        return (newRelease) => {
+            props.setFavAlbum(newRelease, idx);
+        };
     };
-  };
 
-  for (let i = 0; i < NUM_ALBUMS; i++) {
-    // Generates JSX tags for album art
-    columns.push(
-      <Col key={i}>
-        <SearchableCoverArt
-          release={releaseArray[i]}
-          setRelease={createReleaseSetter(i)}
-          isClickable={props.isProfileOwner}
-        />
-      </Col>
-    );
-  }
-  return columns;
+    for (let i = 0; i < NUM_ALBUMS; i++) {
+        // Generates JSX tags for album art
+        columns.push(
+            <Col key={i}>
+                <SearchableCoverArt
+                    release={releaseArray[i]}
+                    setRelease={createReleaseSetter(i)}
+                    isClickable={props.isProfileOwner}
+                />
+            </Col>
+        );
+    }
+    return columns;
 }
 
 function FavoriteAlbums(props) {
-  return (
-    <>
-      <Container>
-        <Row xs={6}>{generateAlbumTags(props)}</Row>
-      </Container>
-    </>
-  );
+    return (
+        <>
+            <Container>
+                <Row xs={6}>{generateAlbumTags(props)}</Row>
+            </Container>
+        </>
+    );
 }
 
 FavoriteAlbums.propTypes = {
-  isProfileOwner: PropTypes.bool.isRequired,
+    isProfileOwner: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  id: state.spotify.id,
-  profile: state.profile,
+    id: state.spotify.id,
+    profile: state.profile,
 });
 
 export default connect(mapStateToProps, {
-  setFavAlbum,
+    setFavAlbum,
 })(FavoriteAlbums);
