@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import CoverArt from "./CoverArt";
 import Search from "../search/Search";
+import "./css/SearchableCoverArt.css";
 
 /*
     Abstraction of <CoverArt/> and <Search/> for portability
@@ -22,8 +23,9 @@ function SearchableCoverArt(props) {
   const coverArt = (
     <CoverArt
       albumData={props.release}
-      isClickable={true}
+      isClickable={props.isClickable}
       fontSize={props.fontSize}
+      width={props.imageWidth}
       handleClick={() => {
         setSearchVisibility(true);
       }}
@@ -40,24 +42,29 @@ function SearchableCoverArt(props) {
     />
   ) : null;
 
+  // Avoid creating a new stacking context below, since the Search component
+  // needs to be rendered at a z-index higher than everything else to create
+  // the blurred background
   return (
-    <Fragment>
-      <div style={{ height: 200, width: 200 }}>{coverArt}</div>
-      <div>{search}</div>
-    </Fragment>
+    <div>
+      <div className="cover-art-container">{coverArt}</div>
+      <div className="search-container">{search}</div>
+    </div>
   );
 }
 
 SearchableCoverArt.propTypes = {
   release: PropTypes.object, // i.e. the album object
   setRelease: PropTypes.func,
+  imageWidth: PropTypes.string,
   fontSize: PropTypes.number,
-  sideLen: PropTypes.number,
+  isClickable: PropTypes.bool,
 };
 
 SearchableCoverArt.defaultProps = {
   fontSize: 12,
-  sideLen: 200,
+  imageWidth: "100%",
+  isClickable: true,
 };
 
 export default SearchableCoverArt;

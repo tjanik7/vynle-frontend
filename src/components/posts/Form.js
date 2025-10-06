@@ -52,7 +52,12 @@ function Form(props) {
         </div>
         <div className={"form-group"}>
           <label>Search Spotify for a Song</label>
-          <SearchableCoverArt release={release} setRelease={setRelease} />
+          <SearchableCoverArt
+            release={release}
+            setRelease={setRelease}
+            imageWidth={"25%"}
+            fontSize={12}
+          />
         </div>
         <div className={"form-group"}>
           <button type={"submit"} className={"btn btn-primary my-2"}>

@@ -4,11 +4,7 @@ import { buildStaticUrl } from "../../api/serverLocations";
 import "./css/CoverArt.css";
 import PropTypes from "prop-types";
 
-// TODO: clean up css file and dedup unneeded classes
-// TODO: change name of this class and references to it
-
 function CoverArt(props) {
-  // TODO: possibly recheck num rerenders
   // Similar to state in that it tracks a value, but it does not trigger a rerender on change
   // (the value does persist between renders)
 
@@ -47,11 +43,11 @@ function CoverArt(props) {
       src={release?.img ? release.img : buildStaticUrl("img/plus.png")}
       ref={imageRef}
       alt={"Album"}
-      className="album-art-img clickable"
+      className={"album-art-img" + (props.isClickable ? " clickable" : "")}
       // First operand decides whether we pass func
       onMouseOver={release && onMouseOver}
       onMouseOut={release && onMouseOut}
-      onClick={props.isClickable && props.handleClick}
+      onClick={props.isClickable ? props.handleClick : undefined}
     />
   );
 
@@ -81,7 +77,7 @@ function CoverArt(props) {
   }
 
   return (
-    <div className="release-container">
+    <div className="release-container" style={{ width: props.width }}>
       {image}
       {releaseInfoDropdown}
     </div>
@@ -92,12 +88,14 @@ CoverArt.propTypes = {
   handleClick: PropTypes.func, // Runs on click of img tag
   albumData: PropTypes.object,
   isClickable: PropTypes.bool,
+  width: PropTypes.string, // Allow client to dynamically specify width (in % or pixels) for the CoverArt while retaining 1:1 aspect ratio
   fontSize: PropTypes.number,
   displayReleaseInfoText: PropTypes.bool,
 };
 
 CoverArt.defaultProps = {
   isClickable: true,
+  width: "100%",
   displayReleaseInfoText: true,
   fontSize: 12,
 };

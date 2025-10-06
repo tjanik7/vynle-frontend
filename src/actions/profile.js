@@ -15,7 +15,7 @@ export const followUser = (user_id) => (dispatch, getState) => {
   AxiosInstance.post(
     `/users/follow/${user_id}/`,
     null,
-    reduxTokenConfig(getState),
+    reduxTokenConfig(getState)
   )
     .then((res) => {
       dispatch({ type: FOLLOWED_USER });
@@ -29,7 +29,7 @@ export const unfollowUser = (user_id) => (dispatch, getState) => {
   AxiosInstance.post(
     `/users/unfollow/${user_id}/`,
     null,
-    reduxTokenConfig(getState),
+    reduxTokenConfig(getState)
   )
     .then((res) => {
       dispatch({ type: UNFOLLOWED_USER });
