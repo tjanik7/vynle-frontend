@@ -101,7 +101,6 @@ class Search extends Component {
               placeholder={"Search..."}
             />
           </div>
-          {/* </form> */}
           <Container>
             <Row>
               <Col className={"dropdown-column"}>
