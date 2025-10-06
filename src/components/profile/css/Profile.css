@@ -1,31 +1,31 @@
 .spinner-layer {
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.25);
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.25);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .text-header {
-  color: black;
-  text-align: center;
+    color: black;
+    text-align: center;
 }
 
 #top-level-container {
-  position: relative;
-  z-index: 0;
+    position: relative;
+    z-index: 0;
 }
 
 #favorite-albums-container {
-  position: relative;
-  z-index: 3;
+    position: relative;
+    z-index: 3;
 }
 
 #posts-container {
-  position: relative;
-  z-index: 0;
+    position: relative;
+    z-index: 0;
 }

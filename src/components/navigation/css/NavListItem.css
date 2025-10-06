@@ -1,15 +1,15 @@
 .popup-list-item {
-  color: lightgray;
-  font-style: italic;
-  cursor: pointer;
-  text-decoration: none;
+    color: lightgray;
+    font-style: italic;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .popup-list-item:hover {
-  color: var(--vynle-primary);
+    color: var(--vynle-primary);
 }
 
 .hamburger-item-disabled {
-  color: darkgray;
-  font-style: italic;
+    color: darkgray;
+    font-style: italic;
 }

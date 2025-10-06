@@ -6,78 +6,78 @@ import { useEffect } from "react";
 import SearchableCoverArt from "../cover_art/SearchableCoverArt";
 
 function Form(props) {
-  // State
-  const [postBody, setPostBody] = useState("");
-  const [release, setRelease] = useState(null);
+    // State
+    const [postBody, setPostBody] = useState("");
+    const [release, setRelease] = useState(null);
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    if (props.submissionStatus === "submitted") {
-      // TODO: Check for err conditions / notify user post is submitting
-      navigate("/");
-    }
+    useEffect(() => {
+        if (props.submissionStatus === "submitted") {
+            // TODO: Check for err conditions / notify user post is submitting
+            navigate("/");
+        }
 
-    // Clean up function - i.e. what componentWillUnmount used to be
-    return function cleanup() {
-      // Set postSubmissionStatus to the empty string
-      props.clearPostSubmissionStatus();
+        // Clean up function - i.e. what componentWillUnmount used to be
+        return function cleanup() {
+            // Set postSubmissionStatus to the empty string
+            props.clearPostSubmissionStatus();
+        };
+    });
+
+    let onSubmit = (e) => {
+        e.preventDefault();
+
+        const post = {
+            body: postBody,
+            spotify_release_uri: release?.spotify_release_uri,
+        };
+
+        // Needs to be accessed via props, cannot just import it and call it due to the way React works
+        props.addPost(post);
     };
-  });
 
-  let onSubmit = (e) => {
-    e.preventDefault();
-
-    const post = {
-      body: postBody,
-      spotify_release_uri: release?.spotify_release_uri,
-    };
-
-    // Needs to be accessed via props, cannot just import it and call it due to the way React works
-    props.addPost(post);
-  };
-
-  return (
-    <div className={"card card-body mt-4 mb-4"}>
-      <h2>Create a Post</h2>
-      <form onSubmit={onSubmit}>
-        <div className={"form-group"}>
-          <label>Body</label>
-          <textarea
-            className={"form-control"}
-            name={"body"}
-            value={postBody}
-            onChange={(e) => setPostBody(e.target.value)}
-          />
+    return (
+        <div className={"card card-body mt-4 mb-4"}>
+            <h2>Create a Post</h2>
+            <form onSubmit={onSubmit}>
+                <div className={"form-group"}>
+                    <label>Body</label>
+                    <textarea
+                        className={"form-control"}
+                        name={"body"}
+                        value={postBody}
+                        onChange={(e) => setPostBody(e.target.value)}
+                    />
+                </div>
+                <div className={"form-group"}>
+                    <label>Search Spotify for a Song</label>
+                    <SearchableCoverArt
+                        release={release}
+                        setRelease={setRelease}
+                        imageWidth={"25%"}
+                        fontSize={12}
+                    />
+                </div>
+                <div className={"form-group"}>
+                    <button type={"submit"} className={"btn btn-primary my-2"}>
+                        Submit
+                    </button>
+                    <Link to={"/"} className={"btn btn-secondary my-2"}>
+                        Cancel
+                    </Link>
+                </div>
+            </form>
         </div>
-        <div className={"form-group"}>
-          <label>Search Spotify for a Song</label>
-          <SearchableCoverArt
-            release={release}
-            setRelease={setRelease}
-            imageWidth={"25%"}
-            fontSize={12}
-          />
-        </div>
-        <div className={"form-group"}>
-          <button type={"submit"} className={"btn btn-primary my-2"}>
-            Submit
-          </button>
-          <Link to={"/"} className={"btn btn-secondary my-2"}>
-            Cancel
-          </Link>
-        </div>
-      </form>
-    </div>
-  );
+    );
 }
 
 const mapStateToProps = (state) => ({
-  submissionStatus: state.posts.submissionStatus,
-  isSearchVisible: state.spotifySearch.isVisible,
+    submissionStatus: state.posts.submissionStatus,
+    isSearchVisible: state.spotifySearch.isVisible,
 });
 
 export default connect(mapStateToProps, {
-  addPost,
-  clearPostSubmissionStatus,
+    addPost,
+    clearPostSubmissionStatus,
 })(Form);

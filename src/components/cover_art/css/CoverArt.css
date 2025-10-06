@@ -1,62 +1,62 @@
 :root {
-  --vynle-gray: #eeeeee;
+    --vynle-gray: #eeeeee;
 }
 
 .release-container {
-  position: relative;
-  background-color: var(--vynle-gray);
-  border-radius: 10px;
-  aspect-ratio: 1;
-  display: flex;
+    position: relative;
+    background-color: var(--vynle-gray);
+    border-radius: 10px;
+    aspect-ratio: 1;
+    display: flex;
 }
 
 .album-art-img {
-  max-width: 100%;
-  align-self: center;
-  border-radius: 10px;
-  z-index: 2;
-  aspect-ratio: 1;
+    max-width: 100%;
+    align-self: center;
+    border-radius: 10px;
+    z-index: 2;
+    aspect-ratio: 1;
 }
 
 .clickable {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .no-art-set {
-  background-color: var(--vynle-gray);
-  width: 100%;
-  padding-bottom: 100%;
+    background-color: var(--vynle-gray);
+    width: 100%;
+    padding-bottom: 100%;
 }
 
 .release-info-sliding-box {
-  color: rgba(0, 0, 0, 70%);
-  background-color: var(--vynle-gray);
-  top: 0;
-  transition: height 400ms ease-in-out;
-  position: absolute;
-  border-radius: 10px;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+    color: rgba(0, 0, 0, 70%);
+    background-color: var(--vynle-gray);
+    top: 0;
+    transition: height 400ms ease-in-out;
+    position: absolute;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 .release-info-aligner {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding-left: 10%;
-  padding-right: 10%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
 .info-line {
-  line-height: 1.1;
-  width: 100%;
-  overflow-wrap: break-word;
-  padding: 5px 0;
-  margin: 0;
+    line-height: 1.1;
+    width: 100%;
+    overflow-wrap: break-word;
+    padding: 5px 0;
+    margin: 0;
 }
 
 .release-name {
-  padding-bottom: 5px;
+    padding-bottom: 5px;
 }
