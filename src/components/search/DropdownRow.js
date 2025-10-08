@@ -24,16 +24,17 @@ class DropdownRow extends Component {
         return (
             <Fragment>
                 <div
-                    className={"card media-card"}
+                    // className={"card media-card"}
+                    className="result-card"
                     onClick={this.onClickHandler}
                 >
-                    <div className={"card-body"}>
+                    <div className={"result-body"}>
                         <Row>
                             <Col className={"col-md-2"}>
                                 <img
                                     src={this.props.img}
+                                    className="release-result-img"
                                     alt={"Album art"}
-                                    height={"50"}
                                     width={"auto"}
                                 />
                             </Col>
