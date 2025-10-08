@@ -9,14 +9,11 @@ import "./css/SearchableCoverArt.css";
 */
 function SearchableCoverArt(props) {
     function setSelectedAlbum(newAlbum) {
-        // Callback function to be passed to <Search/>
-        // TODO: This is a temporary patch. Setting this field occurs in redux when we set a
-        // new album in FavoriteAlbums component. Need to decide if I still want to use redux for
-        // the search component.
-        newAlbum.fetched = true;
         setSearchVisibility(false);
         props.setRelease(newAlbum);
     }
+
+    // TODO: make searchbar selected as soon as search is opened
 
     const [searchVisibility, setSearchVisibility] = useState(false);
 

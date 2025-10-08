@@ -3,16 +3,8 @@ import { Fragment, useState } from "react";
 import { buildStaticUrl } from "../../api/serverLocations";
 import "./css/CoverArt.css";
 import PropTypes from "prop-types";
-import FormattedRelease from "../formatted_release/FormattedRelease";
 
 function CoverArt(props) {
-    if (props.alwaysDisplayInfo) {
-        return <FormattedRelease releaseData={props.albumData} />;
-    }
-
-    // Similar to state in that it tracks a value, but it does not trigger a rerender on change
-    // (the value does persist between renders)
-
     // --- State ---
     // Controls whether info div "drops down" from behind release image
     const [dropdownHeight, setDropdownHeight] = useState("100%");
@@ -21,8 +13,8 @@ function CoverArt(props) {
     const imageRef = useRef(null);
     const alignerRef = useRef(null);
 
-    const release = props.albumData?.fetched ? props.albumData.release : null;
-    const releaseIsPopulated = release?.name.length > 0;
+    const release = props.albumData?.release;
+    const releaseIsPopulated = Boolean(release?.name);
     const clickable = props.handleClick !== undefined;
 
     const onMouseOver = () => {
@@ -45,15 +37,17 @@ function CoverArt(props) {
         );
     }
 
+    // Determines whether we do anything on hover
+    const dropdownEnabled = releaseIsPopulated && !props.alwaysDisplayInfo;
+
     const image = (
         <img
             src={release?.img ? release.img : buildStaticUrl("img/plus.png")}
             ref={imageRef}
             alt={"Album"}
             className={"album-art-img" + (clickable ? " clickable" : "")}
-            // First operand decides whether we pass func
-            onMouseOver={releaseIsPopulated ? onMouseOver : undefined}
-            onMouseOut={releaseIsPopulated ? onMouseOut : undefined}
+            onMouseOver={dropdownEnabled ? onMouseOver : undefined}
+            onMouseOut={dropdownEnabled ? onMouseOut : undefined}
             onClick={props.handleClick}
         />
     );
@@ -64,7 +58,14 @@ function CoverArt(props) {
     if (releaseIsPopulated) {
         releaseInfoAligner = // Container for the text inside the dropdown
             (
-                <div ref={alignerRef} className="release-info-aligner">
+                <div
+                    ref={alignerRef}
+                    className={
+                        props.alwaysDisplayInfo
+                            ? undefined
+                            : "release-info-aligner"
+                    }
+                >
                     <p className="info-line release-name">{release.name}</p>
                     <p className="info-line">{release.artist}</p>
                 </div>
@@ -72,7 +73,12 @@ function CoverArt(props) {
 
         releaseInfoDropdown = (
             <div
-                className="release-info-sliding-box"
+                className={
+                    "release-info " +
+                    (props.alwaysDisplayInfo
+                        ? "release-info-static"
+                        : "release-info-dropdown")
+                }
                 style={{
                     fontSize: props.fontSize,
                     height: dropdownHeight,
@@ -84,7 +90,14 @@ function CoverArt(props) {
     }
 
     return (
-        <div className="release-container" style={{ width: props.width }}>
+        <div
+            className={
+                props.alwaysDisplayInfo
+                    ? "release-container-static"
+                    : "release-container"
+            }
+            style={{ width: props.width }}
+        >
             {image}
             {releaseInfoDropdown}
         </div>

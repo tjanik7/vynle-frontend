@@ -10,17 +10,20 @@ function formatAlbum(albumData) {
         return null;
     }
 
+    const releaseObj = {
+        spotify_release_uri: null,
+        release: albumData,
+    };
+
     return (
         <div>
-            <CoverArt albumData={albumData} alwaysDisplayInfo={true} />
+            <CoverArt albumData={releaseObj} alwaysDisplayInfo={true} />
         </div>
     );
 }
 
 function Post(props) {
     const navigate = useNavigate();
-
-    const release = props.albumData;
 
     return (
         <>
@@ -42,7 +45,7 @@ function Post(props) {
                         : undefined
                 }
             >
-                <div className={"item"}>{formatAlbum(release)}</div>
+                <div className={"item"}>{formatAlbum(props.albumData)}</div>
                 <div className={"item"}>
                     <p>{props.body}</p>
                 </div>
