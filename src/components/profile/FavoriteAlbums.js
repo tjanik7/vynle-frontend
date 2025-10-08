@@ -25,7 +25,7 @@ function generateAlbumTags(props) {
                 <SearchableCoverArt
                     release={releaseArray[i]}
                     setRelease={createReleaseSetter(i)}
-                    isClickable={props.isProfileOwner}
+                    readOnly={!props.isProfileOwner}
                 />
             </Col>
         );

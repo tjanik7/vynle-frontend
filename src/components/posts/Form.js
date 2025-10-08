@@ -57,6 +57,7 @@ function Form(props) {
                         setRelease={setRelease}
                         imageWidth={"25%"}
                         fontSize={12}
+                        alwaysDisplayInfo={true}
                     />
                 </div>
                 <div className={"form-group"}>

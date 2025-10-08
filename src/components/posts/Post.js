@@ -1,26 +1,29 @@
 import React from "react";
 import PropTypes from "prop-types";
-import FormattedRelease from "../formatted_release/FormattedRelease";
 import "./css/Post.css";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
+import CoverArt from "../cover_art/CoverArt";
 
 function formatAlbum(albumData) {
     if (!albumData) {
         return null;
     }
 
+    const releaseObj = {
+        spotify_release_uri: null,
+        release: albumData,
+    };
+
     return (
         <div>
-            <FormattedRelease releaseData={albumData} />
+            <CoverArt albumData={releaseObj} alwaysDisplayInfo={true} />
         </div>
     );
 }
 
 function Post(props) {
     const navigate = useNavigate();
-
-    const release = props.albumData;
 
     return (
         <>
@@ -42,7 +45,7 @@ function Post(props) {
                         : undefined
                 }
             >
-                <div className={"item"}>{formatAlbum(release)}</div>
+                <div className={"item"}>{formatAlbum(props.albumData)}</div>
                 <div className={"item"}>
                     <p>{props.body}</p>
                 </div>
