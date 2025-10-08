@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { search, clearSearchResults } from "../../actions/spotifySearch";
 import DropdownRow from "../search/DropdownRow";
-import { Col, Container, Row, Button } from "react-bootstrap";
+import { Col, Row, Button } from "react-bootstrap";
 import "./css/Search.css";
 
 const TIME_TO_WAIT = 500; // ms to wait after user stops typing to send request
@@ -121,7 +121,7 @@ class Search extends Component {
                     {/* Container for items below search bar */}
                     <div className="search-dropdown-container">
                         {clearSelectionButton}
-                        <Container>
+                        <div className="search-results-container">
                             <Row>
                                 <Col className={"dropdown-column"}>
                                     {this.props.albums.map((result) => (
@@ -140,7 +140,7 @@ class Search extends Component {
                                     ))}
                                 </Col>
                             </Row>
-                        </Container>
+                        </div>
                     </div>
                 </div>
             </>

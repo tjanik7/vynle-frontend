@@ -34,3 +34,9 @@
     text-align: center;
     margin: 10px auto;
 }
+
+.search-results-container {
+    height: 55vh;
+    overflow: scroll;
+    border-radius: 5px;
+}
