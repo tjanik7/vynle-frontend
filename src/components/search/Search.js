@@ -116,6 +116,7 @@ class Search extends Component {
                             value={q}
                             autoComplete={"off"}
                             placeholder={"Search..."}
+                            autoFocus
                         />
                     </div>
                     {/* Container for items below search bar */}
