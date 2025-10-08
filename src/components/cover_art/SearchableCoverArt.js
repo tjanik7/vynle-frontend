@@ -20,16 +20,18 @@ function SearchableCoverArt(props) {
 
     const [searchVisibility, setSearchVisibility] = useState(false);
 
+    const clickHandler = () => {
+        setSearchVisibility(true);
+    };
+
     // CoverArt component
     const coverArt = (
         <CoverArt
             albumData={props.release}
-            isClickable={props.isClickable}
             fontSize={props.fontSize}
             width={props.imageWidth}
-            handleClick={() => {
-                setSearchVisibility(true);
-            }}
+            handleClick={props.readOnly ? undefined : clickHandler}
+            alwaysDisplayInfo={props.alwaysDisplayInfo}
         />
     );
 
@@ -59,13 +61,15 @@ SearchableCoverArt.propTypes = {
     setRelease: PropTypes.func,
     imageWidth: PropTypes.string,
     fontSize: PropTypes.number,
-    isClickable: PropTypes.bool,
+    readOnly: PropTypes.bool, // e.g. when visiting another user's profile
+    alwaysDisplayInfo: PropTypes.bool,
 };
 
 SearchableCoverArt.defaultProps = {
     fontSize: 12,
     imageWidth: "100%",
-    isClickable: true,
+    readOnly: false,
+    alwaysDisplayInfo: false,
 };
 
 export default SearchableCoverArt;

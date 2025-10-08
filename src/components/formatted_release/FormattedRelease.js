@@ -3,7 +3,12 @@ import PropTypes from "prop-types";
 
 import "./css/FormattedRelease.css";
 
-/* Displays Spotify release art with release name and artist name listed below */
+/*
+Displays Spotify release art with release name and artist name listed below.
+
+This component is only to be referenced within <CoverArt/>. We can potentially dedup
+some of the repeated logic in CoverArt in the future.
+*/
 
 function getFormattedJSX(releaseData) {
     if (!releaseData) {

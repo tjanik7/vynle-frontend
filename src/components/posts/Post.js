@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import FormattedRelease from "../formatted_release/FormattedRelease";
 import "./css/Post.css";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
+import CoverArt from "../cover_art/CoverArt";
 
 function formatAlbum(albumData) {
     if (!albumData) {
@@ -12,7 +12,7 @@ function formatAlbum(albumData) {
 
     return (
         <div>
-            <FormattedRelease releaseData={albumData} />
+            <CoverArt albumData={albumData} alwaysDisplayInfo={true} />
         </div>
     );
 }
