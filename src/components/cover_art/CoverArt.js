@@ -109,7 +109,7 @@ CoverArt.propTypes = {
     albumData: PropTypes.object, // Leave optional (e.g. user has yet to add release to new post)
     width: PropTypes.string, // Allow client to dynamically specify width (in % or pixels) for the CoverArt while retaining 1:1 aspect ratio
     fontSize: PropTypes.number,
-    alwaysDisplayInfo: PropTypes.bool,
+    alwaysDisplayInfo: PropTypes.bool, // Info div is always "dropped down" when this is true; additional space is allocated for the permanent dropdown
 };
 
 CoverArt.defaultProps = {
