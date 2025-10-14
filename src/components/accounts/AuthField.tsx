@@ -1,7 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function AuthField({ fieldHasError, label, name, errorMessage, fieldType }) {
+function AuthField({
+    fieldHasError,
+    label,
+    name,
+    errorMessage,
+    fieldType,
+}: Props) {
     const errorMessageStr = errorMessage ? errorMessage[0] : "";
 
     // Currently only needed to set re_password to type 'password'
@@ -25,6 +31,14 @@ function AuthField({ fieldHasError, label, name, errorMessage, fieldType }) {
         </div>
     );
 }
+
+type Props = {
+    fieldHasError: boolean;
+    errorMessage: Array<string> | undefined;
+    label: string;
+    name: string;
+    fieldType?: string;
+};
 
 AuthField.propTypes = {
     fieldHasError: PropTypes.bool.isRequired,

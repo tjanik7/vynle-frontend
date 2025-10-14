@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./css/Post.css";
+import styles from "./css/Post.module.css";
 import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
-import CoverArt from "../cover_art/CoverArt";
+import CoverArt from "src/components/cover_art/CoverArt";
+import type { AlbumData } from "src/types/Types";
 
-function formatAlbum(albumData) {
+function formatAlbum(albumData: AlbumData) {
     if (!albumData) {
         return null;
     }
@@ -22,37 +23,47 @@ function formatAlbum(albumData) {
     );
 }
 
-function Post(props) {
+function Post(props: Props) {
     const navigate = useNavigate();
 
     return (
         <>
-            <div id={"username-field"}>
+            <div className={styles.usernameField}>
                 <h4
                     onClick={() => {
                         navigate(`/profile/${props.username}`);
                     }}
-                    className={"post-container-clickable"}
+                    className={styles.postContainerClickable}
                 >
                     {props.username}
                 </h4>
             </div>
             <div
-                className={`post-container ${props.isClickable ? "post-container-clickable" : ""}`}
+                className={`${styles.postContainer} ${props.isClickable ? styles.postContainerClickable : ""}`}
                 onClick={
                     props.isClickable // Leave onClick undefined if this is not a clickable <Post/>
                         ? () => navigate(`/post/${props.postID}`)
                         : undefined
                 }
             >
-                <div className={"item"}>{formatAlbum(props.albumData)}</div>
-                <div className={"item"}>
+                <div className={styles.item}>
+                    {formatAlbum(props.albumData)}
+                </div>
+                <div className={styles.item}>
                     <p>{props.body}</p>
                 </div>
             </div>
         </>
     );
 }
+
+type Props = {
+    body: string;
+    username: string;
+    postID: number;
+    albumData: AlbumData;
+    isClickable: boolean;
+};
 
 Post.propTypes = {
     body: PropTypes.string.isRequired,
@@ -66,5 +77,7 @@ Post.defaultProps = {
     isClickable: false,
 };
 
-const mapStateToProps = (state) => ({});
+type State = {};
+
+const mapStateToProps = (state: State) => ({});
 export default connect(mapStateToProps, {})(Post);

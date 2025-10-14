@@ -1,31 +1,38 @@
 import React, { useRef } from "react";
 import { Fragment, useState } from "react";
-import { buildStaticUrl } from "../../api/serverLocations";
-import "./css/CoverArt.css";
+import { buildStaticUrl } from "../../api/serverLocations.js";
+import styles from "./css/CoverArt.module.css";
 import PropTypes from "prop-types";
+import type { AlbumData } from "src/types/Types";
 
-function CoverArt(props) {
+function CoverArt(props: Props) {
     // --- State ---
     // Controls whether info div "drops down" from behind release image
     const [dropdownHeight, setDropdownHeight] = useState("100%");
 
     // --- Refs ---
-    const imageRef = useRef(null);
-    const alignerRef = useRef(null);
+    const imageRef = useRef<HTMLImageElement>(null);
+    const alignerRef = useRef<HTMLInputElement>(null);
 
     const release = props.albumData?.release;
     const releaseIsPopulated = Boolean(release?.name);
     const clickable = props.handleClick !== undefined;
 
     const onMouseOver = () => {
-        const imgHeight = imageRef.current.offsetHeight;
-        const alignerHeight = alignerRef.current.offsetHeight;
+        const imgHeight = imageRef.current?.offsetHeight;
 
-        setDropdownHeight(imgHeight + alignerHeight);
+        const alignerHeight = alignerRef.current?.offsetHeight;
+
+        if (imgHeight && alignerHeight) {
+            const newHeight: number = imgHeight + alignerHeight;
+            setDropdownHeight(newHeight.toString());
+        }
     };
 
     const onMouseOut = () => {
-        setDropdownHeight(imageRef.current.offsetHeight);
+        if (imageRef?.current?.offsetHeight) {
+            setDropdownHeight(imageRef.current.offsetHeight.toString());
+        }
     };
 
     // No release art & not clickable
@@ -103,6 +110,14 @@ function CoverArt(props) {
         </div>
     );
 }
+
+type Props = {
+    handleClick: () => void;
+    albumData: AlbumData;
+    width: string;
+    fontSize: number;
+    alwaysDisplayInfo: boolean;
+};
 
 CoverArt.propTypes = {
     handleClick: PropTypes.func, // Runs on click of img tag - leave 'undefined' for no click action

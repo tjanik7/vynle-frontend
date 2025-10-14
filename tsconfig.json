@@ -1,0 +1,38 @@
+{
+    // Visit https://aka.ms/tsconfig to read more about this file
+    "compilerOptions": {
+        // Environment Settings
+        // See also https://aka.ms/tsconfig/module
+        "module": "preserve", // TS compiler "preserves" import/export syntax to be handled by the bundler
+        "target": "esnext",
+        "types": [],
+
+        // Other Outputs
+        "sourceMap": true,
+        "declaration": true,
+        "declarationMap": true,
+
+        // Stricter Typechecking Options
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+
+        // Recommended Options
+        "strict": true,
+        "jsx": "react-jsx",
+        "verbatimModuleSyntax": true,
+        "isolatedModules": true,
+        "noUncheckedSideEffectImports": true,
+        "moduleDetection": "force",
+        "skipLibCheck": true,
+
+        // ------------ Added my me ------------
+        "moduleResolution": "bundler", // Webpack in this case
+        //"strictNullChecks": true, TODO
+
+        // Tells TypeScript & IDE about paths define in our webpack config file
+        "baseUrl": "./src",
+        "paths": {
+            "src/*": ["*"]
+        }
+    }
+}

@@ -1,4 +1,4 @@
-.post-container {
+.postContainer {
     margin-bottom: 50px;
     display: flex;
     border-bottom: 1px solid lightgray;
@@ -6,7 +6,7 @@
     justify-content: space-between;
 }
 
-.post-container-clickable {
+.postContainerClickable {
     cursor: pointer;
 }
 
@@ -14,6 +14,6 @@
     flex: 1;
 }
 
-#username-field {
+.usernameField {
     padding-left: 5px;
 }

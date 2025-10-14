@@ -7,25 +7,34 @@ import { getFieldHasErrorObj } from "../helperFunctions";
 import AuthField from "./AuthField";
 import formHasError from "./formValidator";
 import Spinner from "../common/Spinner";
+import type { Error } from "src/components/accounts/Types";
 
-function Login(props) {
-    function handleSubmit(e) {
+function Login(props: Props) {
+    function handleSubmit(e: SubmitEvent) {
         // Prevents browser from reloading the page
         e.preventDefault();
+        e;
+        const form = e.currentTarget;
+        if (form) {
+            // Need to use "as" to type cast to avoid TypeScript error
+            const formData = new FormData(form as HTMLFormElement);
+            const formJson = Object.fromEntries(formData.entries());
 
-        const form = e.target;
-        const formData = new FormData(form);
-        const formJson = Object.fromEntries(formData.entries());
+            if (formHasError(formJson, setErrors)) {
+                return;
+            }
 
-        if (formHasError(formJson, setErrors)) {
-            return;
+            props.login(
+                formJson.email,
+                formJson.password,
+                setIsLoading,
+                setErrors
+            );
         }
-
-        props.login(formJson.email, formJson.password, setIsLoading, setErrors);
     }
 
     const [isLoading, setIsLoading] = useState(false); // For local use while fetching auth status
-    const [errors, setErrors] = useState({
+    const [errors, setErrors] = useState<Error>({
         msg: {},
         status: null,
     });
@@ -92,12 +101,32 @@ function Login(props) {
     );
 }
 
+type FormValueOrUndefined = FormDataEntryValue | undefined;
+
+type Login = (
+    email: FormValueOrUndefined,
+    password: FormValueOrUndefined,
+    setIsLoading: (isLoading: boolean) => void,
+    setErrors: (error: Error) => void
+) => void;
+
+type Props = {
+    isAuthenticated: boolean;
+    login: Login;
+};
+
 Login.propTypes = {
     isAuthenticated: PropTypes.bool, // Not setting as required bc null state useful while fetching status
     login: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+type State = {
+    auth: {
+        isAuthenticated: boolean;
+    };
+};
+
+const mapStateToProps = (state: State) => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
 

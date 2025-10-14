@@ -48,4 +48,11 @@ module.exports = {
         historyApiFallback: true, // Redirects all get requests to index.html during development
         // Will later need to configure a server to do this in prod
     },
+    resolve: {
+        alias: {
+            // Configure "src" as content root for absolute imports
+            src: path.resolve(__dirname, "src"),
+        },
+        extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
+    },
 };

@@ -10,7 +10,7 @@ import {
     USER_LOADED,
     USER_LOADING,
     USER_LOGGED_OUT,
-} from "./types";
+} from "src/actions/types";
 import { reduxTokenConfig } from "../api/tokenConfig";
 
 // Check token & load user
